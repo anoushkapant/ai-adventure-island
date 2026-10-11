@@ -102,12 +102,8 @@ function AppInner() {
 function Background() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-island-orange/80 shadow-[0_0_0_10px_rgba(255,255,255,0.5)]" />
-      <span className="absolute right-8 top-28 animate-float text-5xl opacity-90">☁️</span>
-      <span className="absolute left-10 top-20 animate-float text-4xl opacity-80 [animation-delay:1s]">☁️</span>
-      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-island-green/50 to-transparent" />
-      <span className="absolute bottom-4 left-8 animate-bob text-5xl opacity-90">🌴</span>
-      <span className="absolute bottom-6 right-10 animate-bob text-4xl opacity-80 [animation-delay:0.6s]">🌴</span>
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/70 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/60 to-transparent" />
     </div>
   )
 }

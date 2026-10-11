@@ -28,7 +28,7 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
         <motion.div
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="pbs-band rounded-[32px] border-4 border-white bg-island-blue px-4 py-5 text-center shadow-[0_8px_0_rgba(0,0,0,0.2)]"
+          className="rounded-[32px] border-4 border-white bg-island-blue px-4 py-5 text-center shadow-[0_8px_0_rgba(0,0,0,0.2)]"
         >
           <h1 className="font-display text-4xl font-extrabold text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.25)] sm:text-5xl">
             AI Adventure Island
