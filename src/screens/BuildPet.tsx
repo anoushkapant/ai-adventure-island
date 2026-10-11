@@ -9,6 +9,8 @@ import { Confetti } from '../components/Confetti'
 import { useGame } from '../context/GameContext'
 import { RobotBrain } from '../lib/ai'
 import {
+  langCats,
+  langItems,
   level2Categories,
   level2Items,
   petAbilities,
@@ -22,7 +24,9 @@ import type { View } from '../types'
 type Step = 'design' | 'train' | 'done'
 
 export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
-  const { state, setPet, completeLevel, grantSticker, celebrate, say } = useGame()
+  const { state, setPet, completeLevel, grantSticker, celebrate, say, t } = useGame()
+  const cats = useMemo(() => langCats(level2Categories, state.settings.lang), [state.settings.lang])
+  const items = useMemo(() => langItems(level2Items, state.settings.lang), [state.settings.lang])
   const [step, setStep] = useState<Step>('design')
   const [body, setBody] = useState(state.pet?.body ?? 'panda')
   const [color, setColor] = useState(state.pet?.color ?? 'blue')
@@ -31,7 +35,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
   const [accuracy, setAccuracy] = useState(0)
   const [unlocked, setUnlocked] = useState<string[]>([])
 
-  const order = useMemo(() => shuffle([...level2Items, ...level2Items]), [])
+  const order = useMemo(() => shuffle([...items, ...items]), [items])
   const brain = useRef(new RobotBrain(level2Categories))
 
   const bodyDef = petBodies.find((b) => b.id === body)!
@@ -44,14 +48,14 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
 
   function labelItem(label: string) {
     brain.current.train(order[trainIdx], label)
-    const acc = brain.current.stableAccuracyOn(level2Items)
+    const acc = brain.current.stableAccuracyOn(items)
     setAccuracy(acc)
     playSound('correct', state.settings.sound)
 
     for (const ab of petAbilities) {
       if (acc >= ab.requiredAccuracy && !unlocked.includes(ab.id)) {
         setUnlocked((u) => [...u, ab.id])
-        celebrate(ab.emoji, `New power: ${ab.label}`, 'Your pet got smarter!')
+        celebrate(ab.emoji, t('build.powerTitle', { label: t(`ability.${ab.id}`) }), t('build.powerSub'))
       }
     }
 
@@ -68,7 +72,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
     completeLevel('build', accuracy, stars)
     grantSticker('pet_maker')
     if (accuracy >= 91) grantSticker('ai_expert')
-    say(`${name || bodyDef.label} is ready! It learned from your examples.`)
+    say(t('build.say', { name: name || bodyDef.label }))
     onHome('map')
   }
 
@@ -77,7 +81,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
       {step === 'design' && (
         <Card className="flex flex-col gap-4 p-5">
           <h2 className="text-center font-display text-2xl font-extrabold text-island-ink">
-            🐾 Build Your AI Pet
+            {t('build.title')}
           </h2>
 
           <div className="flex flex-col items-center">
@@ -93,7 +97,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
           </div>
 
           <div>
-            <p className="mb-2 font-display font-bold text-island-ink/80">1️⃣ Pick a body</p>
+            <p className="mb-2 font-display font-bold text-island-ink/80">{t('build.pick1')}</p>
             <div className="flex flex-wrap gap-2">
               {petBodies.map((b) => (
                 <motion.button
@@ -112,7 +116,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
           </div>
 
           <div>
-            <p className="mb-2 font-display font-bold text-island-ink/80">2️⃣ Pick a color</p>
+            <p className="mb-2 font-display font-bold text-island-ink/80">{t('build.pick2')}</p>
             <div className="flex flex-wrap gap-2">
               {petColors.map((c) => (
                 <motion.button
@@ -131,7 +135,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
           </div>
 
           <div>
-            <p className="mb-2 font-display font-bold text-island-ink/80">3️⃣ Give it a name</p>
+            <p className="mb-2 font-display font-bold text-island-ink/80">{t('build.pick3')}</p>
             <input
               value={name}
               onChange={(e) => setName(e.target.value.slice(0, 14))}
@@ -141,7 +145,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
           </div>
 
           <Button variant="green" size="xl" icon="🧠" fullWidth onClick={startTraining}>
-            Start Training
+            {t('build.start')}
           </Button>
         </Card>
       )}
@@ -160,7 +164,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
               </motion.div>
               <div className="w-full">
                 <p className="mb-1 font-display text-lg font-bold text-island-ink">
-                  Training {name || bodyDef.label}... {brain.current.total} examples
+                  {t('build.training', { name: name || bodyDef.label, n: brain.current.total })}
                 </p>
                 <AccuracyMeter accuracy={accuracy} />
               </div>
@@ -169,7 +173,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
 
           <Card className="flex flex-col items-center gap-4 p-6">
             <p className="font-display text-xl font-bold text-island-ink">
-              Teach your pet! What is this?
+              {t('build.teach')}
             </p>
             <AnimatePresence mode="popLayout">
               <motion.div
@@ -182,7 +186,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
               </motion.div>
             </AnimatePresence>
             <div className="flex flex-wrap justify-center gap-3">
-              {level2Categories.map((cat) => (
+              {cats.map((cat) => (
                 <CategoryButton key={cat.id} category={cat} onClick={() => labelItem(cat.id)} />
               ))}
             </div>
@@ -199,7 +203,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
                     animate={{ scale: 1 }}
                     className="rounded-full border-4 border-white bg-island-sun px-3 py-1 font-display font-bold shadow"
                   >
-                    {a.emoji} {a.label}
+                    {a.emoji} {t(`ability.${a.id}`)}
                   </motion.span>
                 ))}
             </div>
@@ -220,10 +224,10 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
               {bodyDef.emoji}
             </motion.div>
             <h3 className="font-display text-3xl font-extrabold text-island-ink">
-              {name || bodyDef.label} is ready!
+              {t('build.ready', { name: name || bodyDef.label })}
             </h3>
             <p className="font-display font-bold text-island-ink/80">
-              Trained to {accuracy}% smartness
+              {t('build.acc', { acc: accuracy })}
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {petAbilities.map((a) => (
@@ -234,12 +238,12 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
                     unlocked.includes(a.id) ? 'bg-island-green text-white' : 'bg-slate-200 text-island-ink/50',
                   ].join(' ')}
                 >
-                  {a.emoji} {a.label}
+                  {a.emoji} {t(`ability.${a.id}`)}
                 </span>
               ))}
             </div>
             <Button variant="blue" size="lg" icon="🏝️" onClick={finish}>
-              Take {name || bodyDef.label} home!
+              {t('build.takeHome', { name: name || bodyDef.label })}
             </Button>
           </Card>
         </>
@@ -247,7 +251,7 @@ export function BuildPet({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('training')}>
-          Back
+          {t('back')}
         </Button>
       </div>
     </div>

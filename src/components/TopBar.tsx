@@ -9,7 +9,7 @@ interface TopBarProps {
 }
 
 export function TopBar({ title, onHome, onSettings, showHome = true }: TopBarProps) {
-  const { state } = useGame()
+  const { state, t } = useGame()
   return (
     <header className="sticky top-0 z-40 flex items-center gap-2 border-b-4 border-white bg-white px-3 py-2 shadow-[0_4px_0_rgba(0,0,0,0.08)] sm:gap-3">
       {showHome && (
@@ -28,7 +28,7 @@ export function TopBar({ title, onHome, onSettings, showHome = true }: TopBarPro
         </h1>
       ) : (
         <span className="flex min-w-0 flex-1 items-center gap-2 font-display text-xl font-extrabold text-island-ink">
-          AI Adventure Island
+          {t('topbar.app')}
           <span className="hidden text-2xl sm:inline">🤖</span>
         </span>
       )}
@@ -38,13 +38,13 @@ export function TopBar({ title, onHome, onSettings, showHome = true }: TopBarPro
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
         className="flex shrink-0 items-center gap-1 rounded-full border-4 border-white bg-island-sun px-3 py-1 font-display text-lg font-extrabold text-island-ink shadow-[0_4px_0_rgba(0,0,0,0.18)]"
-        title="AI Stars"
+        title={t('topbar.stars')}
       >
         ⭐ {state.stars}
       </motion.div>
       <div
         className="hidden shrink-0 items-center gap-1 rounded-full border-4 border-white bg-island-purple px-3 py-1 font-display text-lg font-extrabold text-white shadow-[0_4px_0_rgba(0,0,0,0.18)] sm:flex"
-        title="Robot Parts"
+        title={t('topbar.parts')}
       >
         🤖 {state.robotParts}
       </div>

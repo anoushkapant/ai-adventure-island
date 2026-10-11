@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
+import { useGame } from '../context/GameContext'
 
 interface ActivityCardProps {
   emoji: string
@@ -22,6 +23,7 @@ export function ActivityCard({
   bestAccuracy,
   index = 0,
 }: ActivityCardProps) {
+  const { t } = useGame()
   const dark = color === 'island-sun' || color === 'island-sky' || color === 'island-cream'
   return (
     <motion.button
@@ -49,7 +51,7 @@ export function ActivityCard({
         </span>
         {typeof bestAccuracy === 'number' && bestAccuracy > 0 && (
           <span className="mt-1 inline-block rounded-full bg-white/80 px-2 py-0.5 text-sm font-extrabold text-island-ink">
-            Best: {bestAccuracy}%
+            {t('activity.best', { acc: bestAccuracy })}
           </span>
         )}
       </span>

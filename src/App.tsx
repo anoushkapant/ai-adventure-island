@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { GameProvider } from './context/GameContext'
+import { GameProvider, useGame } from './context/GameContext'
 import { TopBar } from './components/TopBar'
 import { SettingsPanel } from './components/SettingsPanel'
 import { CelebrationOverlay } from './components/CelebrationOverlay'
@@ -18,21 +18,22 @@ import { TrainDragon } from './screens/TrainDragon'
 import type { View } from './types'
 
 const TITLES: Partial<Record<View, string>> = {
-  lab: '🤖 Robot Lab',
-  training: '🧠 Training Center',
-  challenges: '🎯 AI Challenges',
-  rewards: '🏆 Rewards Castle',
-  story: '📖 AI Storybook',
-  level1: '🍎 Teach the Robot',
-  level2: '🕵️ Robot Detective',
-  level3: '⚖️ Spot the Bias',
-  build: '🐾 Build Your AI Pet',
-  dragon: '🐲 Train the Dragon',
+  lab: 'titles.lab',
+  training: 'titles.training',
+  challenges: 'titles.challenges',
+  rewards: 'titles.rewards',
+  story: 'titles.story',
+  level1: 'titles.level1',
+  level2: 'titles.level2',
+  level3: 'titles.level3',
+  build: 'titles.build',
+  dragon: 'titles.dragon',
 }
 
 const SECTIONS: View[] = ['lab', 'training', 'challenges', 'rewards', 'story']
 
 function AppInner() {
+  const { t } = useGame()
   const [view, setView] = useState<View>('map')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const home = (v: View) => {
@@ -47,7 +48,7 @@ function AppInner() {
 
       <div className="no-scrollbar relative h-[100dvh] overflow-y-auto">
         <TopBar
-          title={TITLES[view] ?? (view === 'map' ? '🏝️ Explore' : '')}
+          title={t(TITLES[view] ?? (view === 'map' ? 'titles.map' : 'nope'))}
           onHome={() => (view === 'map' ? undefined : home('map'))}
           onSettings={() => setSettingsOpen(true)}
           showHome={view !== 'map'}
@@ -77,7 +78,7 @@ function AppInner() {
 
         <footer className="relative py-6 text-center">
           <p className="font-display text-sm font-bold text-island-ink/60">
-            🧠 Matuto ng AI sa pamamagitan ng pagtuturo sa mga robot mong kaibigan! · Walang kinukuhang data, ligtas para sa mga bata 💜
+            {t('footer')}
           </p>
         </footer>
       </div>

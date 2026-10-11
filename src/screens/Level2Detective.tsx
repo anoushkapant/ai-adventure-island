@@ -8,7 +8,7 @@ import { AccuracyMeter } from '../components/AccuracyMeter'
 import { Confetti } from '../components/Confetti'
 import { useGame } from '../context/GameContext'
 import { RobotBrain } from '../lib/ai'
-import { level2Categories, level2Items } from '../data/items'
+import { langCats, langItems, level2Categories, level2Items } from '../data/items'
 import { shuffle, starsFor, clamp } from '../lib/utils'
 import { playSound } from '../lib/sound'
 import type { View } from '../types'
@@ -16,7 +16,9 @@ import type { View } from '../types'
 const TOTAL_ROUNDS = 10
 
 export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
-  const { state, addStars, completeLevel, grantSticker, celebrate, say } = useGame()
+  const { state, addStars, completeLevel, grantSticker, celebrate, say, t } = useGame()
+  const cats = useMemo(() => langCats(level2Categories, state.settings.lang), [state.settings.lang])
+  const items = useMemo(() => langItems(level2Items, state.settings.lang), [state.settings.lang])
   const brain = useRef(
     (() => {
       const b = new RobotBrain(level2Categories)
@@ -30,14 +32,15 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
     })(),
   )
 
-  const order = useMemo(() => shuffle(level2Items).slice(0, TOTAL_ROUNDS), [])
+  const labelOf = (id: string) => cats.find((c) => c.id === id)?.label ?? id
+  const order = useMemo(() => shuffle(items).slice(0, TOTAL_ROUNDS), [items])
   const [round, setRound] = useState(0)
   const [phase, setPhase] = useState<'guess' | 'reveal' | 'result'>('guess')
   const [mood, setMood] = useState<Mood>('idle')
-  const [message, setMessage] = useState('Panoorin mo! Huwag kang kukurap.')
+  const [message, setMessage] = useState(t('l2.intro'))
   const [feedback, setFeedback] = useState<{ ok: boolean; text: string } | null>(null)
   const [score, setScore] = useState(0)
-  const [accuracy, setAccuracy] = useState(() => brain.current.stableAccuracyOn(level2Items))
+  const [accuracy, setAccuracy] = useState(() => brain.current.stableAccuracyOn(items))
   const awarded = useRef(false)
 
   const item = order[Math.min(round, order.length - 1)]
@@ -59,30 +62,30 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
     }
     if (!aiRight) {
       brain.current.train(item, item.category)
-      setAccuracy(brain.current.stableAccuracyOn(level2Items))
+      setAccuracy(brain.current.stableAccuracyOn(items))
     }
     setMood(agreed ? 'happy' : 'thinking')
     setFeedback({
       ok: agreed,
       text: agreed
         ? aiRight
-          ? '✅ Tama! Nahulaan ng AI ito!'
-          : '❌ Huli ka, hula! Mali ang AI. Nagbigay ka na ng bagong example para matuto!'
-        : `🔄 Nahulaan ng AI na ${labelOf(pred.label)}, pero ${labelOf(item.category)} talaga. Ngayon natututo na ang AI!`,
+          ? t('l2.fbRight')
+          : t('l2.fbCatch')
+        : t('l2.fbWrong', { pred: labelOf(pred.label), label: labelOf(item.category) }),
     })
     setPhase('reveal')
   }
 
   function next() {
     if (round + 1 >= TOTAL_ROUNDS) {
-      const acc = brain.current.stableAccuracyOn(level2Items)
+      const acc = brain.current.stableAccuracyOn(items)
       setAccuracy(acc)
       setPhase('result')
     } else {
       setRound((r) => r + 1)
       setFeedback(null)
       setMood('idle')
-      setMessage('Sunod! Sige, bantayan mo nang mabuti.')
+      setMessage(t('l2.next'))
       setPhase('guess')
     }
   }
@@ -90,14 +93,14 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
   useEffect(() => {
     if (phase !== 'result' || awarded.current) return
     awarded.current = true
-    const acc = brain.current.stableAccuracyOn(level2Items)
+    const acc = brain.current.stableAccuracyOn(items)
     const stars = starsFor(acc)
     completeLevel('level2', acc, stars)
     addStars(score)
     grantSticker('detective')
     if (acc >= 91) grantSticker('ai_expert')
-    celebrate('🕵️', 'Robot Detective!', `Matalino na ang AI nito: ${acc}%`)
-    say(`Tinulungan mong matuto ang AI! ${acc} percent na itong matalino.`)
+    celebrate('🕵️', t('l2.celebrateTitle'), t('l2.celebrateSub', { acc }))
+    say(t('l2.say', { acc }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase])
 
@@ -127,7 +130,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
       {phase !== 'result' && (
         <Card className="mt-2 flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            Tinitingnan ito ng AI...
+            {t('l2.aiLook')}
           </p>
           <ItemTile item={item} size="lg" />
 
@@ -139,28 +142,27 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
               className="rounded-3xl bg-island-purple/15 px-4 py-2 text-center"
             >
               <span className="font-display text-lg font-bold text-island-ink">
-                🤖 "Sa tingin ko, ito ay{' '}
-                <span className="text-island-purple">{labelOf(pred.label)}</span>!"
+                🤖 "{t('l2.guessLine', { label: labelOf(pred.label) })}"
               </span>
               <div className="mt-1 text-sm font-bold text-island-ink/60">
-                Kumpiyansa: {Math.round(pred.confidence * 100)}%
+                {t('l2.confidence', { n: Math.round(pred.confidence * 100) })}
               </div>
             </motion.div>
           </AnimatePresence>
 
           {phase === 'guess' && (
             <p className="font-display text-lg font-bold text-island-ink">
-              Is the AI right?
+              {t('l2.ask')}
             </p>
           )}
 
           {phase === 'guess' ? (
             <div className="flex gap-4">
               <Button variant="green" size="lg" icon="✅" onClick={() => judge(true)}>
-                Correct!
+                {t('l2.yes')}
               </Button>
               <Button variant="coral" size="lg" icon="❌" onClick={() => judge(false)}>
-                Not right
+                {t('l2.no')}
               </Button>
             </div>
           ) : (
@@ -176,7 +178,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
                 {feedback?.text}
               </motion.div>
               <Button variant="blue" size="lg" icon="➡️" onClick={next}>
-                {round + 1 >= TOTAL_ROUNDS ? 'Tingnan ang resulta' : 'Sunod'}
+                {round + 1 >= TOTAL_ROUNDS ? t('l2.seeResults') : t('l2.nextBtn')}
               </Button>
             </div>
           )}
@@ -188,7 +190,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
           <Confetti count={46} />
           <Card className="mt-4 flex flex-col items-center gap-3 p-6 text-center">
             <h3 className="font-display text-3xl font-extrabold text-island-ink">
-              AI is now {accuracy}% smart!
+              {t('l2.resultTitle', { acc: accuracy })}
             </h3>
             <div className="text-5xl">{'⭐'.repeat(starsFor(accuracy))}</div>
             <p className="font-display font-bold text-island-ink/80">
@@ -197,10 +199,10 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Button variant="green" icon="🔁" onClick={() => onHome('challenges')}>
-                Ulitin
+                {t('l1.again')}
               </Button>
               <Button variant="blue" icon="🏝️" onClick={() => onHome('map')}>
-                Isla 🏝️
+                {t('islandBtn')}
               </Button>
             </div>
           </Card>
@@ -209,13 +211,11 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('challenges')}>
-          Bumalik
+          {t('back')}
         </Button>
       </div>
     </div>
   )
 }
 
-function labelOf(id: string) {
-  return level2Categories.find((c) => c.id === id)?.label ?? id
-}
+

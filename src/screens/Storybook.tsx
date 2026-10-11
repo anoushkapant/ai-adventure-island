@@ -7,41 +7,17 @@ import { useGame } from '../context/GameContext'
 import { playSound } from '../lib/sound'
 import type { View } from '../types'
 
-const PAGES: { emoji: string; title: string; text: string }[] = [
-  {
-    emoji: '🏝️',
-    title: 'Ang Isla',
-    text: 'Isang maaraw na araw sa isang makulay na isla sa Pilipinas, ipinanganak ang mga robot amigos. Pero hindi pa sila masyadong matalino. Kailangan nila ng guro... at ang guro na iyon ay ikaw!',
-  },
-  {
-    emoji: '🤖',
-    title: 'Natututo ang mga Robot',
-    text: 'Hindi basta-basta alam ng mga robot ang lahat. Natututo sila sa mga halimbawa — tulad ng pagtuturo mo na ang manga at saging ay prutas!',
-  },
-  {
-    emoji: '🥭',
-    title: 'Sanayin ang Robot',
-    text: 'Tuwing mag-uuri ka ng isang bagay, tumatalino ang robot. Ang bawat halimbawa ay isang kislap ng mahika na tinatawag na training data.',
-  },
-  {
-    emoji: '🧪',
-    title: 'Mag-Isip ka Nang Mabuti',
-    text: 'Kapag nakakita ang robot ng bagong nilalang, ginagamit nito ang mga pattern. "Hmm, maliit, pula at matamis... dapat prutas iyan!" Tumutulong ang patterns sa paaga ng robot.',
-  },
-  {
-    emoji: '⚖️',
-    title: 'Ang Hindi Patas na Hula',
-    text: 'Isang robot, puro pusa at aso lang ang natutunan. Nang makakita ito ng kuneho, mali ang hula nito! Dahil kulang ang halimbawa, naging hindi patas ang sagot. Ganoon ang tinatawag na bias.',
-  },
-  {
-    emoji: '🌈',
-    title: 'Ikaw ang Mahika',
-    text: 'Kapag nagbigay ka sa mga robot ng maraming iba-iba at patas na halimbawa, sila ay nagiging super katulong. At tandaan — okay lang ang magkamali. Ganoon din natututo ang mga siyentista!',
-  },
+const PAGES: { emoji: string; titleKey: string; textKey: string }[] = [
+  { emoji: '🏝️', titleKey: 'book.1.title', textKey: 'book.1.text' },
+  { emoji: '🤖', titleKey: 'book.2.title', textKey: 'book.2.text' },
+  { emoji: '🥭', titleKey: 'book.3.title', textKey: 'book.3.text' },
+  { emoji: '🧪', titleKey: 'book.4.title', textKey: 'book.4.text' },
+  { emoji: '⚖️', titleKey: 'book.5.title', textKey: 'book.5.text' },
+  { emoji: '🌈', titleKey: 'book.6.title', textKey: 'book.6.text' },
 ]
 
 export function Storybook({ onHome }: { onHome: (v: View) => void }) {
-  const { say, state } = useGame()
+  const { say, state, t } = useGame()
   const [page, setPage] = useState(0)
   const current = PAGES[page]
   const isFirst = page === 0
@@ -71,14 +47,14 @@ export function Storybook({ onHome }: { onHome: (v: View) => void }) {
             >
               {current.emoji}
             </motion.div>
-            <h2 className="font-display text-2xl font-extrabold text-island-ink">{current.title}</h2>
-            <p className="max-w-md font-display text-lg font-bold text-island-ink/80">{current.text}</p>
+            <h2 className="font-display text-2xl font-extrabold text-island-ink">{t(current.titleKey)}</h2>
+            <p className="max-w-md font-display text-lg font-bold text-island-ink/80">{t(current.textKey)}</p>
           </motion.div>
         </AnimatePresence>
 
         <div className="flex w-full items-center justify-between gap-2">
           <Button variant="cream" size="md" icon="◀️" disabled={isFirst} onClick={() => go(page - 1)}>
-            Bumalik
+            {t('back')}
           </Button>
           <div className="flex gap-1">
             {PAGES.map((_, i) => (
@@ -94,7 +70,7 @@ export function Storybook({ onHome }: { onHome: (v: View) => void }) {
             ))}
           </div>
           <Button variant="cream" size="md" icon="▶️" disabled={isLast} onClick={() => go(page + 1)}>
-            Sunod
+            {t('book.next')}
           </Button>
         </div>
 
@@ -103,15 +79,15 @@ export function Storybook({ onHome }: { onHome: (v: View) => void }) {
           size="md"
           icon="🔊"
           fullWidth
-          onClick={() => say(`${current.title}. ${current.text}`)}
+          onClick={() => say(`${t(current.titleKey)}. ${t(current.textKey)}`)}
         >
-          Basahin mo sa akin
+          {t('book.read')}
         </Button>
       </Card>
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('map')}>
-          Bumalik
+          {t('back')}
         </Button>
       </div>
     </div>

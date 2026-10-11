@@ -3,15 +3,15 @@ import { ActivityCard, ScreenShell } from '../components/ActivityCard'
 import type { View } from '../types'
 
 export function TrainingCenter({ onNavigate }: { onNavigate: (v: View) => void }) {
-  const { state } = useGame()
+  const { state, t } = useGame()
   return (
-    <ScreenShell title="🧠 Training Center">
+    <ScreenShell title={t('training.title')}>
       <div className="flex flex-col gap-4">
         <ActivityCard
           index={0}
           emoji="🍎"
-          title="Turuan ang Robot"
-          description="Pag-uri-uriin ang mga prutas at gulay. Panoorin matuto ang AI!"
+          title={t('training.l1.title')}
+          description={t('training.l1.desc')}
           color="island-green"
           onClick={() => onNavigate('level1')}
           stars={state.levels['level1']?.stars}
@@ -20,8 +20,8 @@ export function TrainingCenter({ onNavigate }: { onNavigate: (v: View) => void }
         <ActivityCard
           index={1}
           emoji="🐾"
-          title="Build Your AI Pet"
-          description="Pick a pet, train it, unlock powers."
+          title={t('training.pet.title')}
+          description={t('training.pet.desc')}
           color="island-purple"
           onClick={() => onNavigate('build')}
           stars={state.levels['build']?.stars}
@@ -30,8 +30,8 @@ export function TrainingCenter({ onNavigate }: { onNavigate: (v: View) => void }
         <ActivityCard
           index={2}
           emoji="🐲"
-          title="Sanayin ang Bakunawa"
-          description="Isang baby Bakunawa ang nangangailangan ng tulong mo para lumaki!"
+          title={t('training.dragon.title')}
+          description={t('training.dragon.desc')}
           color="island-coral"
           onClick={() => onNavigate('dragon')}
           stars={state.levels['dragon']?.stars}

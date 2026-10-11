@@ -110,14 +110,14 @@ export class RobotBrain {
 }
 
 export interface AccuracyBand {
+  id: 'learning' | 'improving' | 'smart' | 'expert'
   emoji: string
-  label: string
   color: string
 }
 
 export function accuracyBand(accuracy: number): AccuracyBand {
-  if (accuracy <= 30) return { emoji: '🌱', label: 'Natututo', color: '#08ab4e' }
-  if (accuracy <= 60) return { emoji: '😊', label: 'Bumubuti', color: '#f5b338' }
-  if (accuracy <= 90) return { emoji: '🚀', label: 'Matalino', color: '#2d6cdf' }
-  return { emoji: '🏆', label: 'AI Master', color: '#a220df' }
+  if (accuracy <= 30) return { id: 'learning', emoji: '🌱', color: '#08ab4e' }
+  if (accuracy <= 60) return { id: 'improving', emoji: '😊', color: '#f5b338' }
+  if (accuracy <= 90) return { id: 'smart', emoji: '🚀', color: '#2d6cdf' }
+  return { id: 'expert', emoji: '🏆', color: '#a220df' }
 }

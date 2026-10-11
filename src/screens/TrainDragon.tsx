@@ -8,67 +8,63 @@ import { AccuracyMeter } from '../components/AccuracyMeter'
 import { Confetti } from '../components/Confetti'
 import { useGame } from '../context/GameContext'
 import { RobotBrain } from '../lib/ai'
-import { dragonCategories, dragonItems } from '../data/items'
+import { langCats, langItems, dragonCategories, dragonItems } from '../data/items'
 import { shuffle, starsFor } from '../lib/utils'
 import { playSound } from '../lib/sound'
 import type { View } from '../types'
 
 type Phase = 'intro' | 'feed' | 'done'
 
-interface Stage {
-  emoji: string
-  name: string
-  scale: number
-  filter?: string
+const stageDefs: { key: string; emoji: string; max: number; scale: number; filter?: string }[] = [
+  { key: 'dragon.stage.egg', emoji: '🥚', max: 20, scale: 0.7 },
+  { key: 'dragon.stage.baby', emoji: '🐣', max: 45, scale: 0.85 },
+  { key: 'dragon.stage.grow', emoji: '🐲', max: 70, scale: 1 },
+  { key: 'dragon.stage.strong', emoji: '🔥', max: 90, scale: 1.15 },
+  { key: 'dragon.stage.legend', emoji: '🐉', max: 101, scale: 1.3 },
+]
+
+function stageKeyFor(acc: number): string {
+  for (const d of stageDefs) {
+    if (acc <= d.max) return d.key
+  }
+  return 'dragon.stage.legend'
 }
 
-function stageFor(acc: number): Stage {
-  if (acc <= 20) return { emoji: '🥚', name: 'Maliit na Itlog', scale: 0.7 }
-  if (acc <= 45) return { emoji: '🐣', name: 'Baby Bakunawa', scale: 0.85 }
-  if (acc <= 70) return { emoji: '🐲', name: 'Lumalaking Bakunawa', scale: 1 }
-  if (acc <= 90) return { emoji: '🔥', name: 'Malakas na Bakunawa', scale: 1.15 }
-  return { emoji: '🐉', name: 'Maalamat na Bakunawa', scale: 1.3 }
-}
-
-const DRAGON_TALK: Record<string, string> = {
-  ready: 'Rawr! 🐲 Pakanin mo ako ng example cards para lalo akong lumakas!',
-  first: 'Mmmm! Alab? Patak? Sibol? Kawayan? ...',
-  learning: 'Lumalaki na ang utak ko! Sige, pakainin mo pa ako!',
-  good: 'ROAR! Naiintindihan ko na ang apoy, tubig at halaman!',
-  legendary: 'WOW! Ako ay isang maalamat na dragon na AI! Salamat!',
-}
+const TALK_KEYS = ['dragon.talk.ready', 'dragon.talk.first', 'dragon.talk.learning', 'dragon.talk.good', 'dragon.talk.legendary']
 
 export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
-  const { state, completeLevel, grantSticker, addDragonXp, celebrate, say } = useGame()
+  const { state, completeLevel, grantSticker, addDragonXp, celebrate, say, t } = useGame()
+  const cats = useMemo(() => langCats(dragonCategories, state.settings.lang), [state.settings.lang])
+  const items = useMemo(() => langItems(dragonItems, state.settings.lang), [state.settings.lang])
   const brain = useRef(new RobotBrain(dragonCategories))
-  const order = useMemo(() => shuffle(dragonItems), [])
+  const order = useMemo(() => shuffle(items), [items])
   const [phase, setPhase] = useState<Phase>('intro')
   const [idx, setIdx] = useState(0)
   const [accuracy, setAccuracy] = useState(0)
-  const [talk, setTalk] = useState(DRAGON_TALK.ready)
+  const [talkIdx, setTalkIdx] = useState(0)
   const [burp, setBurp] = useState<string | null>(null)
 
-  const stage = stageFor(accuracy)
+  const talk = t(TALK_KEYS[talkIdx])
+  const stageKey = stageKeyFor(accuracy)
+  const stageDef = stageDefs.find((d) => d.key === stageKey)!
+  const stage = { ...stageDef, name: t(stageKey) }
 
   function feed(label: string) {
     const item = order[idx]
     brain.current.train(item, label)
-    const acc = brain.current.stableAccuracyOn(dragonItems)
+    const acc = brain.current.stableAccuracyOn(items)
     setAccuracy(acc)
     addDragonXp(1)
     setBurp(item.emoji)
     playSound(item.category === label ? 'correct' : 'wrong', state.settings.sound)
 
-    if (acc <= 20) setTalk(DRAGON_TALK.first)
-    else if (acc <= 45) setTalk(DRAGON_TALK.learning)
-    else if (acc <= 70) setTalk(DRAGON_TALK.good)
-    else setTalk(DRAGON_TALK.legendary)
+    setTalkIdx(acc <= 20 ? 1 : acc <= 45 ? 2 : acc <= 70 ? 3 : 4)
 
     setTimeout(() => setBurp(null), 500)
     const next = idx + 1
     if (next >= order.length || acc >= 100) {
       setTimeout(() => setPhase('done'), 700)
-      if (acc >= 91) celebrate('🐉', 'Maalamat na Bakunawa!', 'Naging matalinong AI legend ang iyong dragon')
+      if (acc >= 91) celebrate('🐉', t('dragon.celebrateTitle'), t('dragon.celebrateSub'))
     } else {
       setIdx(next)
     }
@@ -79,7 +75,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
     completeLevel('dragon', accuracy, stars)
     grantSticker('dragon_friend')
     if (accuracy >= 91) grantSticker('ai_expert')
-    say(`Natuto at lumakas ang iyong Bakunawa. Itinuro mo rito ang mahika ng AI!`)
+    say(t('dragon.sayDone'))
     onHome('training')
   }
 
@@ -123,13 +119,13 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'intro' && (
         <Card className="flex flex-col items-center gap-4 p-6 text-center">
           <p className="font-display text-xl font-bold text-island-ink">
-            Isang baby Bakunawa ang nangangailangan ng TULONG mo para maging matalino!
+            {t('dragon.introTitle')}
           </p>
           <p className="font-display font-bold text-island-ink/80">
-            Pakanin mo ito ng example cards at piliin ang tamang grupo:
+            {t('dragon.introSub')}
           </p>
           <div className="flex gap-3">
-            {dragonCategories.map((c) => (
+            {cats.map((c) => (
               <span
                 key={c.id}
                 className="rounded-2xl border-4 border-white px-4 py-2 font-display font-bold"
@@ -148,7 +144,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'feed' && (
         <Card className="flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            Anong klaseng nilalang ito?
+            {t('dragon.feedPrompt')}
           </p>
           <AnimatePresence mode="popLayout">
             <motion.div
@@ -161,7 +157,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
             </motion.div>
           </AnimatePresence>
           <div className="flex flex-wrap justify-center gap-3">
-            {dragonCategories.map((cat) => (
+            {cats.map((cat) => (
               <CategoryButton key={cat.id} category={cat} onClick={() => feed(cat.id)} />
             ))}
           </div>
@@ -191,7 +187,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
             </p>
             <div className="text-5xl">{'⭐'.repeat(starsFor(accuracy))}</div>
             <Button variant="green" size="lg" icon="🏡" onClick={finish}>
-              Bumalik sa Isla
+              {t('backToIsland')}
             </Button>
           </Card>
         </>
@@ -199,7 +195,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('training')}>
-          Bumalik
+          {t('back')}
         </Button>
       </div>
     </div>

@@ -6,21 +6,21 @@ import { RobotBuddy } from '../components/RobotBuddy'
 interface Dest {
   view: View
   emoji: string
-  title: string
-  subtitle: string
+  titleKey: string
+  subKey: string
   color: string
 }
 
 const DESTINATIONS: Dest[] = [
-  { view: 'lab', emoji: '🤖', title: 'Robot Lab', subtitle: 'Kilalanin ang kaibigan mo', color: 'island-blue' },
-  { view: 'training', emoji: '🧠', title: 'Training Center', subtitle: 'Magturo & mag-build ng AI', color: 'island-green' },
-  { view: 'challenges', emoji: '🎯', title: 'AI Challenges', subtitle: 'Detective at Bias', color: 'island-coral' },
-  { view: 'rewards', emoji: '🏆', title: 'Rewards Castle', subtitle: 'Mga bituin at stickers', color: 'island-sun' },
-  { view: 'story', emoji: '📖', title: 'AI Storybook', subtitle: 'Mga masasayang kwento', color: 'island-purple' },
+  { view: 'lab', emoji: '🤖', titleKey: 'dest.lab.title', subKey: 'dest.lab.sub', color: 'island-blue' },
+  { view: 'training', emoji: '🧠', titleKey: 'dest.training.title', subKey: 'dest.training.sub', color: 'island-green' },
+  { view: 'challenges', emoji: '🎯', titleKey: 'dest.challenges.title', subKey: 'dest.challenges.sub', color: 'island-coral' },
+  { view: 'rewards', emoji: '🏆', titleKey: 'dest.rewards.title', subKey: 'dest.rewards.sub', color: 'island-sun' },
+  { view: 'story', emoji: '📖', titleKey: 'dest.story.title', subKey: 'dest.story.sub', color: 'island-purple' },
 ]
 
 export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
-  const { state } = useGame()
+  const { state, t } = useGame()
 
   return (
     <div className="relative min-h-full overflow-hidden">
@@ -34,7 +34,7 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
             AI Adventure Island
           </h1>
           <p className="mt-1 font-display text-lg font-extrabold text-island-sun">
-            🧠 Matuto ng AI sa pamamagitan ng pagtuturo sa mga robot mong kaibigan!
+            {t('island.subtitle')}
           </p>
         </motion.div>
 
@@ -86,7 +86,7 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
                       dark ? 'text-island-ink' : 'text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]',
                     ].join(' ')}
                   >
-                    {d.title}
+                    {t(d.titleKey)}
                   </span>
                   <span
                     className={[
@@ -94,7 +94,7 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
                       dark ? 'text-island-ink/70' : 'text-white/85',
                     ].join(' ')}
                   >
-                    {d.subtitle}
+                    {t(d.subKey)}
                   </span>
                 </span>
               </motion.button>

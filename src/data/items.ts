@@ -16,6 +16,81 @@ export interface CategoryDef {
 }
 
 /* ------------------------------------------------------------------ */
+/* Language-aware names & labels (English + Filipino)                  */
+/* ------------------------------------------------------------------ */
+
+const NAMES: Record<string, { en: string; tl: string }> = {
+  mango: { en: 'Mango', tl: 'Manga' },
+  banana: { en: 'Banana', tl: 'Saging' },
+  pineapple: { en: 'Pineapple', tl: 'Pinya' },
+  buko: { en: 'Young Coconut', tl: 'Buko' },
+  santol: { en: 'Santol', tl: 'Santol' },
+  guyabano: { en: 'Soursop', tl: 'Guyabano' },
+  okra: { en: 'Okra', tl: 'Okra' },
+  ampalaya: { en: 'Bitter Gourd', tl: 'Ampalaya' },
+  kalabasa: { en: 'Squash', tl: 'Kalabasa' },
+  kamote: { en: 'Sweet Potato', tl: 'Kamote' },
+  talong: { en: 'Eggplant', tl: 'Talong' },
+  mais: { en: 'Corn', tl: 'Mais' },
+  kalabaw: { en: 'Water Buffalo', tl: 'Kalabaw' },
+  aso: { en: 'Dog', tl: 'Aso' },
+  pusa: { en: 'Cat', tl: 'Pusa' },
+  agila: { en: 'Eagle', tl: 'Agila' },
+  tilapia: { en: 'Tilapia', tl: 'Tilapia' },
+  jeepney: { en: 'Jeepney', tl: 'Jeepney' },
+  tricycle: { en: 'Tricycle', tl: 'Tricycle' },
+  kotse: { en: 'Car', tl: 'Kotse' },
+  bangka: { en: 'Boat', tl: 'Bangka' },
+  eroplano: { en: 'Airplane', tl: 'Eroplano' },
+  halohalo: { en: 'Halo-halo', tl: 'Halo-halo' },
+  adobo: { en: 'Adobo', tl: 'Adobo' },
+  lumpia: { en: 'Lumpia', tl: 'Lumpia' },
+  champorado: { en: 'Champorado', tl: 'Champorado' },
+  sinigang: { en: 'Sinigang', tl: 'Sinigang' },
+  lechon: { en: 'Roast Pig', tl: 'Lechon' },
+  yoyo: { en: 'Yo-Yo', tl: 'Yo-Yo' },
+  sipa: { en: 'Sipa', tl: 'Sipa' },
+  legobricks: { en: 'LEGO Blocks', tl: 'Lego' },
+  robotlaruan: { en: 'Toy Robot', tl: 'Robot Talaga' },
+  l3cat: { en: 'Cat', tl: 'Pusa' },
+  l3dog: { en: 'Dog', tl: 'Aso' },
+  l3rabbit: { en: 'Rabbit', tl: 'Kuneho' },
+  l3hamster: { en: 'Hamster', tl: 'Hamster' },
+  alab: { en: 'Ember', tl: 'Alab' },
+  sulo: { en: 'Torch', tl: 'Sulo' },
+  kislap: { en: 'Sparkle', tl: 'Kislap' },
+  alon: { en: 'Wave', tl: 'Alon' },
+  patak: { en: 'Drop', tl: 'Patak' },
+  sirena: { en: 'Sea Sprite', tl: 'Sirena' },
+  sibol: { en: 'Sprout', tl: 'Sibol' },
+  dahon: { en: 'Leaf', tl: 'Dahon' },
+  kawayan: { en: 'Bamboo', tl: 'Kawayan' },
+}
+
+const CAT_LABELS: Record<string, { en: string; tl: string }> = {
+  fruit: { en: 'Fruit', tl: 'Prutas' },
+  vegetable: { en: 'Veggie', tl: 'Gulay' },
+  animal: { en: 'Animal', tl: 'Hayop' },
+  vehicle: { en: 'Vehicle', tl: 'Sasakyan' },
+  food: { en: 'Food', tl: 'Pagkain' },
+  toy: { en: 'Toy', tl: 'Laruan' },
+  fire: { en: 'Fire', tl: 'Apoy' },
+  water: { en: 'Water', tl: 'Tubig' },
+  plant: { en: 'Plant', tl: 'Halaman' },
+  cat: { en: 'Cat', tl: 'Pusa' },
+  dog: { en: 'Dog', tl: 'Aso' },
+  rabbit: { en: 'Rabbit', tl: 'Kuneho' },
+}
+
+export function langItems(list: Item[], lang: 'en' | 'tl'): Item[] {
+  return list.map((i) => ({ ...i, name: NAMES[i.id]?.[lang] ?? i.name }))
+}
+
+export function langCats(cats: CategoryDef[], lang: 'en' | 'tl'): CategoryDef[] {
+  return cats.map((c) => ({ ...c, label: CAT_LABELS[c.id]?.[lang] ?? c.label }))
+}
+
+/* ------------------------------------------------------------------ */
 /* Level 1 — Teach the Robot: Prutas (Fruit) vs Gulay (Veggie)         */
 /* ------------------------------------------------------------------ */
 

@@ -5,7 +5,7 @@ import { useGame, STICKERS, DECORATIONS } from '../context/GameContext'
 import type { View } from '../types'
 
 export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
-  const { state } = useGame()
+  const { state, t } = useGame()
   const completed = Object.values(state.levels).filter((l) => l.completed).length
   const allLevels = 5
 
@@ -22,7 +22,7 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
           >
             {state.stars}
           </motion.span>
-          <span className="font-display font-bold text-island-ink/70">AI Stars</span>
+          <span className="font-display font-bold text-island-ink/70">{t('rewards.stars')}</span>
         </Card>
         <Card className="flex flex-col items-center gap-1 p-4 text-center">
           <span className="text-5xl">🤖</span>
@@ -34,12 +34,12 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
           >
             {state.robotParts}
           </motion.span>
-          <span className="font-display font-bold text-island-ink/70">Robot Parts</span>
+          <span className="font-display font-bold text-island-ink/70">{t('rewards.parts')}</span>
         </Card>
       </div>
 
       <h2 className="mt-6 mb-2 text-center font-display text-2xl font-extrabold text-island-ink drop-shadow-[0_2px_0_rgba(255,255,255,0.8)]">
-        🏅 Sticker Book
+        {t('rewards.stickers')}
       </h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {STICKERS.map((s, i) => {
@@ -61,8 +61,12 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
                 <span className={owned ? 'text-5xl' : 'text-5xl opacity-40 grayscale'}>
                   {owned ? s.emoji : '🔒'}
                 </span>
-                <span className="font-display text-sm font-extrabold text-island-ink">{s.name}</span>
-                <span className="h-10 text-xs font-bold text-island-ink/60">{s.hint}</span>
+                <span className="font-display text-sm font-extrabold text-island-ink">
+                  {t(`s.${s.id}.name`)}
+                </span>
+                <span className="h-10 text-xs font-bold text-island-ink/60">
+                  {t(`s.${s.id}.hint`)}
+                </span>
               </Card>
             </motion.div>
           )
@@ -70,7 +74,7 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
       </div>
 
       <h2 className="mt-6 mb-2 text-center font-display text-2xl font-extrabold text-island-ink drop-shadow-[0_2px_0_rgba(255,255,255,0.8)]">
-        🌴 Island Decorations
+        {t('rewards.decos')}
       </h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {DECORATIONS.map((d, i) => {
@@ -93,7 +97,9 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
                   <span className={owned ? 'text-5xl animate-float' : 'text-5xl opacity-40 grayscale'}>
                     {owned ? d.emoji : '🔒'}
                   </span>
-                  <span className="font-display text-sm font-extrabold text-island-ink">{d.name}</span>
+                  <span className="font-display text-sm font-extrabold text-island-ink">
+                    {t(`d.${d.id}`)}
+                  </span>
                 </div>
               </Card>
             </motion.div>
@@ -103,15 +109,14 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
 
       <Card className="mt-6 p-4 text-center">
         <p className="font-display font-bold text-island-ink/80">
-          🌟 Complete activities to earn stars, robot parts, stickers and decorations.
+          {t('rewards.note')}
         </p>
         <p className="mt-1 font-display text-sm font-bold text-island-ink/60">
-          Activities done: {completed} of {allLevels} · No mistakes are ever punished — experimenting
-          is how you learn!
+          {t('rewards.note2', { done: completed, total: allLevels })}
         </p>
         <div className="mt-4 flex justify-center">
           <Button variant="blue" icon="🏝️" onClick={() => onHome('map')}>
-            Back to Island
+            {t('backToIsland')}
           </Button>
         </div>
       </Card>

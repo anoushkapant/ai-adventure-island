@@ -9,7 +9,7 @@ import { AccuracyMeter } from '../components/AccuracyMeter'
 import { Confetti } from '../components/Confetti'
 import { useGame } from '../context/GameContext'
 import { RobotBrain } from '../lib/ai'
-import { level1Categories, level1Items } from '../data/items'
+import { langCats, langItems, level1Categories, level1Items } from '../data/items'
 import { shuffle, starsFor } from '../lib/utils'
 import { playSound } from '../lib/sound'
 import type { View } from '../types'
@@ -17,30 +17,34 @@ import type { View } from '../types'
 type Phase = 'train' | 'test' | 'result'
 
 export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
-  const { state, completeLevel, grantSticker, say, celebrate } = useGame()
+  const { state, completeLevel, grantSticker, say, celebrate, t } = useGame()
+  const cats = useMemo(() => langCats(level1Categories, state.settings.lang), [state.settings.lang])
+  const items = useMemo(() => langItems(level1Items, state.settings.lang), [state.settings.lang])
   const brain = useRef(new RobotBrain(level1Categories))
-  const order = useMemo(() => shuffle(level1Items), [])
+  const order = useMemo(() => shuffle(items), [items])
+  const labelOf = (id: string) => cats.find((c) => c.id === id)?.label ?? id
+  const labelEmoji = (id: string) => cats.find((c) => c.id === id)?.emoji ?? id
   const [phase, setPhase] = useState<Phase>('train')
   const [trainIdx, setTrainIdx] = useState(0)
   const [accuracy, setAccuracy] = useState(0)
   const [testIdx, setTestIdx] = useState(0)
   const [mood, setMood] = useState<Mood>('idle')
-  const [message, setMessage] = useState('Hi! Ako si Botoy! Wala pa akong alam, turuan mo ako!')
+  const [message, setMessage] = useState(t('l1.intro'))
   const awarded = useRef(false)
 
   const testPredictions = useMemo(
-    () => level1Items.map((item) => ({ item, pred: brain.current.predict(item) })),
+    () => items.map((item) => ({ item, pred: brain.current.predict(item) })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [phase],
+    [phase, items],
   )
 
   const correctCount = testPredictions.filter((p) => p.pred.label === p.item.category).length
-  const finalAccuracy = Math.round((correctCount / level1Items.length) * 100)
+  const finalAccuracy = Math.round((correctCount / items.length) * 100)
 
   function labelItem(label: string) {
     const item = order[trainIdx]
     brain.current.train(item, label)
-    const acc = brain.current.stableAccuracyOn(level1Items)
+    const acc = brain.current.stableAccuracyOn(items)
     setAccuracy(acc)
     playSound('click', state.settings.sound)
 
@@ -51,7 +55,7 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
     const next = trainIdx + 1
     if (next >= order.length) {
       setMood('thinking')
-      setMessage('Wow! Marami na akong examples. Subukan natin mag-isa ako!')
+      setMessage(t('l1.trainingDone'))
       setPhase('test')
       setTestIdx(0)
     } else {
@@ -60,12 +64,12 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
       setMood(acc >= 91 ? 'excited' : young ? 'thinking' : 'happy')
       setMessage(
         acc === 0
-          ? "Sige lang, hindi ko pa alam ang lahat!"
+          ? t('l1.msg.0')
           : acc < 60
-            ? 'May napapansin na akong pattern, tuloy ka lang!'
+            ? t('l1.msg.1')
             : acc < 91
-              ? 'Parang naiintindihan ko na!'
-              : "Ang galing ko na! Mahusay akong matuto!",
+              ? t('l1.msg.2')
+              : t('l1.msg.3'),
       )
     }
   }
@@ -79,19 +83,19 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
     }
     const { pred, item } = testPredictions[testIdx]
     setMood('thinking')
-    setMessage(`Hmm... "${item.name}", ${labelOf(pred.label)} ba 'yan?`)
-    const t = setTimeout(() => {
+    setMessage(t('l1.guess', { name: item.name, label: labelOf(pred.label) }))
+    const timer = setTimeout(() => {
       const right = pred.label === item.category
       setMood(right ? 'happy' : 'confused')
       setMessage(
         right
-          ? `Salamat! Tama! ${item.name} ay ${labelOf(item.category)}! ✅`
-          : `Ay, mali! Ang ${item.name} talaga ay ${labelOf(item.category)}. ❌`,
+          ? t('l1.right', { name: item.name, label: labelOf(item.category) })
+          : t('l1.wrong', { name: item.name, label: labelOf(item.category) }),
       )
       playSound(right ? 'correct' : 'wrong', state.settings.sound)
       setTestIdx((i) => i + 1)
     }, 1100)
-    return () => clearTimeout(t)
+    return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, testIdx])
 
@@ -102,8 +106,8 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
     completeLevel('level1', finalAccuracy, stars)
     grantSticker('l1_done')
     if (finalAccuracy >= 91) grantSticker('ai_expert')
-    celebrate('🍓', 'Fruit Sorter!', `Your AI scored ${finalAccuracy}%`)
-    say(`Great job! Your AI scored ${finalAccuracy} percent!`)
+    celebrate('🍓', t('l1.celebrateTitle'), t('l1.celebrateSub', { acc: finalAccuracy }))
+    say(t('l1.say', { acc: finalAccuracy }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase])
 
@@ -124,14 +128,14 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'train' && (
         <div className="mt-4">
           <div className="mb-2 flex items-center justify-between font-display font-bold text-island-ink/80">
-            <span>📚 Training examples: {brain.current.total}</span>
+            <span>{t('l1.examples', { n: brain.current.total })}</span>
             <span>
               {trainIdx + 1} / {order.length}
             </span>
           </div>
           <Card className="flex flex-col items-center gap-4 p-6">
             <p className="font-display text-xl font-bold text-island-ink">
-              Alin sa mga ito ang tama?
+              {t('l1.prompt')}
             </p>
             <AnimatePresence mode="popLayout">
               <motion.div
@@ -146,7 +150,7 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
             </AnimatePresence>
 
             <div className="flex flex-wrap justify-center gap-4">
-              {level1Categories.map((cat) => (
+              {cats.map((cat) => (
                 <CategoryButton
                   key={cat.id}
                   category={cat}
@@ -162,10 +166,10 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'test' && (
         <Card className="mt-4 p-6">
           <p className="mb-2 text-center font-display text-xl font-bold text-island-purple">
-            🧪 Testing time! Let's see how smart the AI is.
+            {t('l1.testingTitle')}
           </p>
           <p className="text-center text-sm font-bold text-island-ink/60">
-            Testing data is new to the AI — it must guess on its own!
+            {t('l1.testingSub')}
           </p>
           <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4">
             {testPredictions.map((p, i) => (
@@ -204,15 +208,15 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
           <Confetti count={finalAccuracy >= 70 ? 50 : 24} />
           <Card className="mt-4 flex flex-col items-center gap-3 p-6 text-center">
             <h3 className="font-display text-3xl font-extrabold text-island-ink">
-              Your AI scored {finalAccuracy}%!
+              {t('l1.resultTitle', { acc: finalAccuracy })}
             </h3>
             <div className="text-5xl">{'⭐'.repeat(starsFor(finalAccuracy))}</div>
             <p className="font-display font-bold text-island-ink/80">
               {finalAccuracy >= 91
-                ? '🏆 Sobrang galing! Mas maraming examples, mas matalino ang AI!'
+                ? t('l1.resultHigh')
                 : finalAccuracy >= 70
-                  ? '🚀 Ang galing! Ulitin mo para lalo pang tumalino ang AI!'
-                  : '🌱 Magandang simula! Kailangan ng AI ng marami pang examples para matuto.'}
+                  ? t('l1.resultMid')
+                  : t('l1.resultLow')}
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Button
@@ -226,13 +230,13 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
                   setTestIdx(0)
                   setAccuracy(0)
                   setMood('idle')
-                  setMessage("Let's try again! Teach me with new examples.")
+                  setMessage(t('l1.tryAgain'))
                 }}
               >
-                Ulitin
+                {t('l1.again')}
               </Button>
               <Button variant="blue" icon="🏝️" onClick={() => onHome('map')}>
-                Isla 🏝️
+                {t('islandBtn')}
               </Button>
             </div>
           </Card>
@@ -241,16 +245,10 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('training')}>
-          Back
+          {t('back')}
         </Button>
       </div>
     </div>
   )
 }
 
-function labelOf(id: string) {
-  return level1Categories.find((c) => c.id === id)?.label ?? id
-}
-function labelEmoji(id: string) {
-  return level1Categories.find((c) => c.id === id)?.emoji ?? id
-}

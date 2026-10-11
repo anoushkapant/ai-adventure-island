@@ -9,6 +9,7 @@ import { Confetti } from '../components/Confetti'
 import { useGame } from '../context/GameContext'
 import { RobotBrain } from '../lib/ai'
 import {
+  langCats,
   level3Items,
   level3NewCategories,
   level3TrainedCategories,
@@ -22,7 +23,12 @@ type Phase = 'discover' | 'explain' | 'fix' | 'fixed' | 'result'
 const allCategories: CategoryDef[] = [...level3TrainedCategories, ...level3NewCategories]
 
 export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
-  const { completeLevel, grantSticker, celebrate, say, state } = useGame()
+  const { completeLevel, grantSticker, celebrate, say, state, t } = useGame()
+  const cats = useMemo(
+    () => langCats([...level3TrainedCategories, ...level3NewCategories], state.settings.lang),
+    [state.settings.lang],
+  )
+  const labelOf = (id: string) => cats.find((c) => c.id === id)?.label ?? id
   const brain = useRef(
     (() => {
       const b = new RobotBrain(allCategories)
@@ -53,7 +59,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
     [version],
   )
 
-  const counts = allCategories.map((c) => ({ cat: c, n: brain.current.countFor(c.id) }))
+  const counts = cats.map((c) => ({ cat: c, n: brain.current.countFor(c.id) }))
   const maxCount = Math.max(1, ...counts.map((c) => c.n))
 
   function teach(label: string) {
@@ -68,8 +74,8 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
     if (fixIdx + 1 >= fixQueue.length) {
       setPhase('fixed')
       grantSticker('bias_buster')
-      celebrate('⚖️', 'Bias Buster!', 'You made the data fair again')
-      say('You found the problem! When the AI sees more kinds of animals, it becomes fair.')
+      celebrate('⚖️', t('l3.celebrateTitle'), t('l3.celebrateSub'))
+      say(t('l3.say'))
       completeLevel('level3', 100, 3)
     } else {
       setFixIdx((i) => i + 1)
@@ -99,7 +105,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
 
       {/* Training data balance chart */}
       <Card className="mb-3 p-4">
-        <p className="mb-2 font-display font-bold text-island-ink/80">📊 AI Training Data</p>
+        <p className="mb-2 font-display font-bold text-island-ink/80">{t('l3.chart')}</p>
         <div className="flex flex-col gap-2">
           {counts.map(({ cat, n }) => (
             <div key={cat.id} className="flex items-center gap-2">
@@ -123,7 +129,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'discover' && (
         <Card className="flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            Tingnan! May bagong hayop na dumarating 🐰
+            {t('l3.discoverTitle')}
           </p>
           <ItemTile item={rabbit} size="lg" />
           <motion.div
@@ -132,14 +138,14 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
             className="rounded-3xl bg-island-coral/20 px-4 py-2 text-center"
           >
             <span className="font-display text-lg font-bold text-island-ink">
-              🤖 "Ito ay {labelOf(allCategories, biasGuess.label)}!"
+              🤖 "{t('l3.guessLine', { label: labelOf(biasGuess.label) })}"
             </span>
           </motion.div>
           <p className="text-center font-display font-bold text-island-coral">
-            Ay naku! Mali iyan. 🐰 ay isang kuneho!
+            {t('l3.wrong')}
           </p>
           <Button variant="purple" size="lg" icon="🤔" onClick={() => setPhase('explain')}>
-            Bakit nangyari iyan?
+            {t('l3.why')}
           </Button>
         </Card>
       )}
@@ -166,7 +172,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'fix' && (
         <Card className="flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            Turuan ang AI tungkol sa hayp na ito:
+            {t('l3.fixTitle')}
           </p>
           <AnimatePresence mode="popLayout">
             <motion.div
@@ -179,7 +185,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
             </motion.div>
           </AnimatePresence>
           <div className="flex flex-wrap justify-center gap-3">
-            {allCategories.map((cat) => (
+            {cats.map((cat) => (
               <CategoryButton key={cat.id} category={cat} onClick={() => teach(cat.id)} />
             ))}
           </div>
@@ -196,7 +202,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
             className="rounded-3xl bg-island-green/20 px-4 py-2"
           >
             <span className="font-display text-lg font-bold text-island-ink">
-              🤖 "Ito ay isang Kuneho!" {rabbitNowCorrect ? '✅' : ''}
+              🤖 "{t('l3.fixedGuess')}" {rabbitNowCorrect ? '✅' : ''}
             </span>
           </motion.div>
           <p className="font-display text-lg font-bold text-island-green">
@@ -230,13 +236,11 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('challenges')}>
-          Bumalik
+          {t('back')}
         </Button>
       </div>
     </div>
   )
 }
 
-function labelOf(cats: CategoryDef[], id: string) {
-  return cats.find((c) => c.id === id)?.label ?? id
-}
+

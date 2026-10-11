@@ -1,23 +1,25 @@
 import { motion } from 'motion/react'
 import { accuracyBand } from '../lib/ai'
+import { useGame } from '../context/GameContext'
 
 interface AccuracyMeterProps {
   accuracy: number
 }
 
 export function AccuracyMeter({ accuracy }: AccuracyMeterProps) {
+  const { t } = useGame()
   const band = accuracyBand(accuracy)
   return (
     <div className="w-full">
       <div className="mb-1 flex items-center justify-between font-display font-bold">
-        <span className="text-island-ink/80">🤖 AI Power</span>
+        <span className="text-island-ink/80">{t('acc.label')}</span>
         <motion.span
-          key={band.label}
+          key={band.id + accuracy}
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="text-island-ink"
         >
-          {band.emoji} {band.label}
+          {band.emoji} {t(`acc.band.${band.id}`)}
         </motion.span>
       </div>
       <div className="h-8 w-full overflow-hidden rounded-full border-4 border-white bg-island-ink/10 shadow-inner">

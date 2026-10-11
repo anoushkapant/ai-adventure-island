@@ -8,10 +8,12 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { playSound, setSpeechEnabled, speak } from '../lib/sound'
+import { playSound, setSpeechEnabled, setSpeechLang, speak } from '../lib/sound'
 import { DECORATIONS, STICKERS, decorationById, stickerById } from '../data/rewards'
+import { translate, type Lang } from '../i18n'
 
 export interface Settings {
+  lang: Lang
   dyslexia: boolean
   colorblind: boolean
   voice: boolean
@@ -51,7 +53,7 @@ const initialState: GameState = {
   levels: {},
   pet: null,
   dragonXp: 0,
-  settings: { dyslexia: false, colorblind: false, voice: true, sound: true },
+  settings: { lang: 'en', dyslexia: false, colorblind: false, voice: true, sound: true },
 }
 
 function loadState(): GameState {
@@ -95,6 +97,7 @@ interface GameContextValue {
   updateSettings: (patch: Partial<Settings>) => void
   resetProgress: () => void
   say: (text: string) => void
+  t: (key: string, vars?: Record<string, string | number>) => string
 }
 
 const GameContext = createContext<GameContextValue | null>(null)
@@ -115,6 +118,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setSpeechEnabled(state.settings.voice)
   }, [state.settings.voice])
+
+  useEffect(() => {
+    setSpeechLang(state.settings.lang)
+  }, [state.settings.lang])
 
   useEffect(() => {
     const root = document.documentElement
@@ -196,8 +203,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const resetProgress = useCallback(() => {
-    setState((s) => ({ ...initialState, settings: s.settings }))
+    setState((s) => ({ ...initialState, settings: { ...s.settings, lang: s.settings.lang } }))
   }, [])
+
+  const t = useCallback(
+    (key: string, vars?: Record<string, string | number>) => translate(state.settings.lang, key, vars),
+    [state.settings.lang],
+  )
 
   const value = useMemo<GameContextValue>(
     () => ({
@@ -215,6 +227,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       updateSettings,
       resetProgress,
       say,
+      t,
     }),
     [
       state,
@@ -231,6 +244,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       updateSettings,
       resetProgress,
       say,
+      t,
     ],
   )
 

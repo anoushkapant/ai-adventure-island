@@ -1,10 +1,15 @@
 let speechEnabled = true
+let speechLang: 'en' | 'tl' = 'en'
 
 export function setSpeechEnabled(value: boolean) {
   speechEnabled = value
   if (!value && typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.cancel()
   }
+}
+
+export function setSpeechLang(lang: 'en' | 'tl') {
+  speechLang = lang
 }
 
 export function speak(text: string) {
@@ -16,9 +21,17 @@ export function speak(text: string) {
     utter.rate = 0.95
     utter.pitch = 1.2
     utter.volume = 1
-    const voices = window.speechSynthesis.getVoices()
-    const friendly = voices.find((v) => /female|samantha|karen|zira|google uk english female/i.test(v.name))
-    if (friendly) utter.voice = friendly
+    if (speechLang === 'tl') {
+      utter.lang = 'fil'
+      const voices = window.speechSynthesis.getVoices()
+      const ph = voices.find((v) => /(fil|filipino|pino|tagalog)/i.test(`${v.lang} ${v.name}`))
+      if (ph) utter.voice = ph
+    } else {
+      utter.lang = 'en-US'
+      const voices = window.speechSynthesis.getVoices()
+      const friendly = voices.find((v) => /female|samantha|karen|zira|google uk english female/i.test(v.name))
+      if (friendly) utter.voice = friendly
+    }
     window.speechSynthesis.speak(utter)
   } catch {
     /* speech is a bonus, never break the game */
