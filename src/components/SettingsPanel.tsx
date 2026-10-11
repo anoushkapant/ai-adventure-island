@@ -12,9 +12,9 @@ const OPTIONS: { key: keyof Settings; emoji: string; labelKey: string; hintKey: 
   { key: 'colorblind', emoji: '🎨', labelKey: 'settings.colorblind.label', hintKey: 'settings.colorblind.hint' },
 ]
 
-const LANGUAGES: { id: Lang; emoji: string; flag: string; labelKey: string }[] = [
-  { id: 'en', emoji: '🌎', flag: '🇺🇸', labelKey: 'settings.en' },
-  { id: 'tl', emoji: '🏝️', flag: '🇵🇭', labelKey: 'settings.fil' },
+const LANGUAGES: { id: Lang; flag: string; labelKey: string }[] = [
+  { id: 'en', flag: '🇺🇸', labelKey: 'settings.en' },
+  { id: 'tl', flag: '🇵🇭', labelKey: 'settings.fil' },
 ]
 
 export function SettingsPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -58,7 +58,6 @@ export function SettingsPanel({ open, onClose }: { open: boolean; onClose: () =>
                       active ? 'bg-island-sun text-island-ink ring-4 ring-island-ink/20' : 'bg-white/80 text-island-ink/70',
                     ].join(' ')}
                   >
-                    <span className="text-2xl">{l.emoji}</span>
                     <span>{l.flag} {t(l.labelKey)}</span>
                   </button>
                 )
