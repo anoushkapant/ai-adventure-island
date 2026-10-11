@@ -1,0 +1,12 @@
+export type View =
+  | 'map'
+  | 'lab'
+  | 'training'
+  | 'challenges'
+  | 'rewards'
+  | 'story'
+  | 'level1'
+  | 'level2'
+  | 'level3'
+  | 'build'
+  | 'dragon'

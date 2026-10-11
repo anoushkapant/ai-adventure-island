@@ -1,0 +1,122 @@
+import { useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
+import { GameProvider } from './context/GameContext'
+import { TopBar } from './components/TopBar'
+import { SettingsPanel } from './components/SettingsPanel'
+import { CelebrationOverlay } from './components/CelebrationOverlay'
+import { IslandMap } from './screens/IslandMap'
+import { RobotLab } from './screens/RobotLab'
+import { TrainingCenter } from './screens/TrainingCenter'
+import { Challenges } from './screens/Challenges'
+import { RewardsCastle } from './screens/RewardsCastle'
+import { Storybook } from './screens/Storybook'
+import { Level1TeachRobot } from './screens/Level1TeachRobot'
+import { Level2Detective } from './screens/Level2Detective'
+import { Level3Bias } from './screens/Level3Bias'
+import { BuildPet } from './screens/BuildPet'
+import { TrainDragon } from './screens/TrainDragon'
+import type { View } from './types'
+
+const TITLES: Partial<Record<View, string>> = {
+  lab: '🤖 Robot Lab',
+  training: '🧠 Training Center',
+  challenges: '🎯 AI Challenges',
+  rewards: '🏆 Rewards Castle',
+  story: '📖 AI Storybook',
+  level1: '🍎 Teach the Robot',
+  level2: '🕵️ Robot Detective',
+  level3: '⚖️ Spot the Bias',
+  build: '🐾 Build Your AI Pet',
+  dragon: '🐲 Train the Dragon',
+}
+
+const SECTIONS: View[] = ['lab', 'training', 'challenges', 'rewards', 'story']
+
+function AppInner() {
+  const [view, setView] = useState<View>('map')
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const home = (v: View) => {
+    setView(v)
+    window.scrollTo({ top: 0 })
+  }
+  const back = (v: View) => setView(v)
+
+  return (
+    <div className="relative min-h-full">
+      <Background />
+
+      <div className="no-scrollbar relative h-[100dvh] overflow-y-auto">
+        <TopBar
+          title={TITLES[view] ?? (view === 'map' ? '🏝️ Explore' : '')}
+          onHome={() => (view === 'map' ? undefined : home('map'))}
+          onSettings={() => setSettingsOpen(true)}
+          showHome={view !== 'map'}
+        />
+
+        <AnimatePresence mode="wait">
+          <motion.main
+            key={view}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -24 }}
+            transition={{ duration: 0.28 }}
+          >
+            {view === 'map' && <IslandMap onNavigate={home} />}
+            {view === 'lab' && <RobotLab onHome={back} onSettings={() => setSettingsOpen(true)} />}
+            {view === 'training' && <TrainingCenter onNavigate={back} />}
+            {view === 'challenges' && <Challenges onNavigate={back} />}
+            {view === 'rewards' && <RewardsCastle onHome={back} />}
+            {view === 'story' && <Storybook onHome={back} />}
+            {view === 'level1' && <Level1TeachRobot onHome={back} />}
+            {view === 'level2' && <Level2Detective onHome={back} />}
+            {view === 'level3' && <Level3Bias onHome={back} />}
+            {view === 'build' && <BuildPet onHome={back} />}
+            {view === 'dragon' && <TrainDragon onHome={back} />}
+          </motion.main>
+        </AnimatePresence>
+
+        <footer className="relative py-6 text-center">
+          <p className="font-display text-sm font-bold text-island-ink/60">
+            🧠 Learn AI by teaching your own friendly robot friends! · No data collected, safe for kids 💜
+          </p>
+        </footer>
+      </div>
+
+      <SettingsPanel open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      <CelebrationOverlay />
+
+      {/* quick island-map shortcut at very bottom on touch */}
+      {view !== 'map' && !SECTIONS.includes(view) && (
+        <button
+          onClick={() => home('map')}
+          className="fixed bottom-4 right-4 z-40 grid h-14 w-14 place-items-center rounded-2xl border-4 border-white bg-island-sun text-2xl shadow-lg"
+          aria-label="Go to island map"
+        >
+          🏠
+        </button>
+      )}
+    </div>
+  )
+}
+
+function Background() {
+  return (
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#7ad7f5] via-island-blue/70 to-[#c4f2c4]">
+      <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-island-sun/70 blur-sm" />
+      <div className="absolute -left-10 top-1/3 h-40 w-40 rounded-full bg-white/50 blur-xl" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-island-green/40 to-transparent" />
+      <span className="absolute right-8 top-24 animate-float text-5xl opacity-90">☁️</span>
+      <span className="absolute left-10 top-16 animate-float text-4xl opacity-80 [animation-delay:1s]">☁️</span>
+      <span className="absolute bottom-6 left-8 animate-bob text-5xl opacity-90">🌴</span>
+      <span className="absolute bottom-8 right-10 animate-bob text-4xl opacity-80 [animation-delay:0.6s]">🌴</span>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <GameProvider>
+      <AppInner />
+    </GameProvider>
+  )
+}

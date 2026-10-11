@@ -1,0 +1,130 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-island-blue: #4cc9f0;
+  --color-island-sun: #ffd60a;
+  --color-island-purple: #9b5de5;
+  --color-island-green: #00c853;
+  --color-island-coral: #ff6b6b;
+  --color-island-orange: #ff9e00;
+  --color-island-sky: #caf0f8;
+  --color-island-cream: #fff9ec;
+  --color-island-ink: #26324a;
+
+  --font-display: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Baloo 2', 'Fredoka', system-ui, sans-serif;
+
+  --radius-xxl: 1.5rem;
+  --radius-xxxl: 2rem;
+
+  --shadow-pop: 0 6px 0 rgba(0, 0, 0, 0.12);
+  --shadow-soft: 0 12px 30px rgba(38, 50, 74, 0.16);
+
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-wiggle: wiggle 2.2s ease-in-out infinite;
+  --animate-pop: pop 0.35s ease-out;
+  --animate-bob: bob 1.6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-2deg);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-island-ink);
+  background: var(--color-island-sky);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Accessibility: dyslexia-friendly font */
+.a11y-dyslexia body,
+.a11y-dyslexia {
+  font-family: 'OpenDyslexic', 'Lexend', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+/* Accessibility: high contrast / colorblind-friendly mode shifts colours
+   toward a blue/orange safe pair and adds outlines. */
+.a11y-colorblind {
+  --color-island-green: #0072b2;
+  --color-island-purple: #d55e00;
+  --color-island-coral: #e69f00;
+}
+
+.a11y-colorblind button,
+.a11y-colorblind [role='button'] {
+  outline: 3px solid rgba(38, 50, 74, 0.65);
+  outline-offset: 2px;
+}
+
+/* Big touch targets and no text selection for a kid-friendly feel */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+*:focus-visible {
+  outline: 4px solid var(--color-island-purple);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
