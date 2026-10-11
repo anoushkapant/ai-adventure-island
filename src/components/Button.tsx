@@ -24,9 +24,9 @@ interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
 }
 
 const SIZES = {
-  md: 'text-lg px-6 py-3 gap-2',
-  lg: 'text-xl px-8 py-4 gap-3',
-  xl: 'text-2xl px-10 py-5 gap-3',
+  md: 'text-lg px-7 py-3 gap-2',
+  lg: 'text-xl px-9 py-4 gap-3',
+  xl: 'text-2xl px-11 py-5 gap-3',
 }
 
 export function Button({
@@ -43,17 +43,17 @@ export function Button({
   const { state } = useGame()
   return (
     <motion.button
-      whileHover={{ scale: 1.04, y: -2 }}
-      whileTap={{ scale: 0.94 }}
+      whileHover={{ scale: 1.05, y: -2 }}
+      whileTap={{ scale: 0.95, y: 2 }}
       transition={{ type: 'spring', stiffness: 500, damping: 22 }}
       onClick={(e) => {
         if (!silent) playSound('click', state.settings.sound)
         onClick?.(e)
       }}
       className={[
-        'inline-flex items-center justify-center rounded-[24px] font-display font-bold',
-        'shadow-[0_6px_0_rgba(0,0,0,0.15)] active:shadow-[0_2px_0_rgba(0,0,0,0.15)]',
-        'border-4 border-white/60 select-none touch-manipulation',
+        'inline-flex items-center justify-center rounded-full font-display font-extrabold tracking-wide',
+        'border-4 border-white shadow-[0_6px_0_rgba(0,0,0,0.2)] active:shadow-[0_2px_0_rgba(0,0,0,0.2)]',
+        'select-none touch-manipulation',
         VARIANTS[variant],
         SIZES[size],
         fullWidth ? 'w-full' : '',

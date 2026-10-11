@@ -1,7 +1,7 @@
 import { motion } from 'motion/react'
 import { useMemo } from 'react'
 
-const COLORS = ['#4CC9F0', '#FFD60A', '#9B5DE5', '#00C853', '#FF6B6B', '#FF9E00']
+const COLORS = ['#2d6cdf', '#f7e03b', '#a220df', '#08ab4e', '#e5296b', '#f5b338']
 const EMOJIS = ['⭐', '🎉', '🏅', '🌟', '✨', '💫']
 
 interface ConfettiProps {

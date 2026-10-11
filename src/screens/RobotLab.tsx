@@ -41,7 +41,7 @@ export function RobotLab({ onHome, onSettings }: { onHome: (v: View) => void; on
         </div>
       </Card>
 
-      <h2 className="mt-5 mb-2 text-center font-display text-2xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]">
+      <h2 className="mt-5 mb-2 text-center font-display text-2xl font-extrabold text-island-ink drop-shadow-[0_2px_0_rgba(255,255,255,0.8)]">
         🧠 Words Every AI Explorer Knows
       </h2>
 

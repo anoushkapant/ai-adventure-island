@@ -38,7 +38,7 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
         </Card>
       </div>
 
-      <h2 className="mt-6 mb-2 text-center font-display text-2xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]">
+      <h2 className="mt-6 mb-2 text-center font-display text-2xl font-extrabold text-island-ink drop-shadow-[0_2px_0_rgba(255,255,255,0.8)]">
         🏅 Sticker Book
       </h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -69,7 +69,7 @@ export function RewardsCastle({ onHome }: { onHome: (v: View) => void }) {
         })}
       </div>
 
-      <h2 className="mt-6 mb-2 text-center font-display text-2xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]">
+      <h2 className="mt-6 mb-2 text-center font-display text-2xl font-extrabold text-island-ink drop-shadow-[0_2px_0_rgba(255,255,255,0.8)]">
         🌴 Island Decorations
       </h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

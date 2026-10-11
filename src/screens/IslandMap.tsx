@@ -24,23 +24,16 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
 
   return (
     <div className="relative min-h-full overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 select-none text-6xl opacity-70">
-        <span className="absolute left-4 top-6 animate-float">🌴</span>
-        <span className="absolute right-6 top-10 animate-float [animation-delay:0.6s]">☁️</span>
-        <span className="absolute bottom-24 left-8 animate-float [animation-delay:1.2s]">🌺</span>
-        <span className="absolute bottom-40 right-10 animate-float [animation-delay:0.3s]">🦜</span>
-      </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-4 pb-16 pt-6">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-4 pb-16 pt-5">
         <motion.div
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="text-center"
+          className="pbs-band rounded-[32px] border-4 border-white bg-island-blue px-4 py-5 text-center shadow-[0_8px_0_rgba(0,0,0,0.2)]"
         >
-          <h1 className="font-display text-4xl font-extrabold text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.2)] sm:text-5xl">
+          <h1 className="font-display text-4xl font-extrabold text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.25)] sm:text-5xl">
             AI Adventure Island
           </h1>
-          <p className="mt-1 font-display text-lg font-bold text-island-ink/80">
+          <p className="mt-1 font-display text-lg font-extrabold text-island-sun">
             🧠 Learn AI by teaching your own friendly robot friends!
           </p>
         </motion.div>
@@ -62,36 +55,51 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {DESTINATIONS.map((d, i) => (
-            <motion.button
-              key={d.view}
-              onClick={() => onNavigate(d.view)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06 }}
-              whileHover={{ scale: 1.04, y: -4 }}
-              whileTap={{ scale: 0.96 }}
-              className={[
-                'flex items-center gap-4 rounded-[28px] border-4 border-white p-4 text-left shadow-[0_8px_0_rgba(0,0,0,0.15)]',
-                i === 0 ? 'sm:col-span-2' : '',
-              ].join(' ')}
-              style={{ background: `var(--color-${d.color})` }}
-            >
-              <motion.span
-                animate={{ rotate: [0, -6, 6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-                className="text-5xl drop-shadow"
+          {DESTINATIONS.map((d, i) => {
+            const dark = d.color === 'island-sun'
+            return (
+              <motion.button
+                key={d.view}
+                onClick={() => onNavigate(d.view)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06 }}
+                whileHover={{ scale: 1.04, y: -4 }}
+                whileTap={{ scale: 0.96 }}
+                className={[
+                  'flex items-center gap-4 rounded-[32px] border-4 border-white p-4 text-left shadow-[0_8px_0_rgba(0,0,0,0.2)] ring-4 ring-black/5',
+                  i === 0 ? 'sm:col-span-2' : '',
+                ].join(' ')}
+                style={{ background: `var(--color-${d.color})` }}
               >
-                {d.emoji}
-              </motion.span>
-              <span>
-                <span className="block font-display text-2xl font-extrabold text-island-ink drop-shadow-sm">
-                  {d.title}
+                <motion.span
+                  animate={{ rotate: [0, -6, 6, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+                  className="text-5xl drop-shadow"
+                >
+                  {d.emoji}
+                </motion.span>
+                <span>
+                  <span
+                    className={[
+                      'block font-display text-2xl font-extrabold',
+                      dark ? 'text-island-ink' : 'text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]',
+                    ].join(' ')}
+                  >
+                    {d.title}
+                  </span>
+                  <span
+                    className={[
+                      'block font-display font-extrabold',
+                      dark ? 'text-island-ink/70' : 'text-white/85',
+                    ].join(' ')}
+                  >
+                    {d.subtitle}
+                  </span>
                 </span>
-                <span className="block font-display font-bold text-island-ink/70">{d.subtitle}</span>
-              </span>
-            </motion.button>
-          ))}
+              </motion.button>
+            )
+          })}
         </div>
 
         {state.decorations.length > 0 && (

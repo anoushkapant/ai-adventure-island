@@ -1,15 +1,15 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-island-blue: #4cc9f0;
-  --color-island-sun: #ffd60a;
-  --color-island-purple: #9b5de5;
-  --color-island-green: #00c853;
-  --color-island-coral: #ff6b6b;
-  --color-island-orange: #ff9e00;
-  --color-island-sky: #caf0f8;
-  --color-island-cream: #fff9ec;
-  --color-island-ink: #26324a;
+  --color-island-blue: #2d6cdf;
+  --color-island-sun: #f7e03b;
+  --color-island-purple: #a220df;
+  --color-island-green: #08ab4e;
+  --color-island-coral: #e5296b;
+  --color-island-orange: #f5b338;
+  --color-island-sky: #bfe9ff;
+  --color-island-cream: #fffdf2;
+  --color-island-ink: #000000;
 
   --font-display: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
   --font-body: 'Baloo 2', 'Fredoka', system-ui, sans-serif;
@@ -80,10 +80,26 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--color-island-ink);
-  background: var(--color-island-sky);
+  background-color: #f7e03b;
+  /* PBS KIDS style playful polka-dot field */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.85) 3px, transparent 3.5px),
+    radial-gradient(rgba(229, 41, 107, 0.12) 5px, transparent 5.5px);
+  background-size: 44px 44px, 88px 88px;
+  background-position: 0 0, 22px 22px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* Reusable PBS-style "sticker" outline + chunky 3D shadow */
+.pbs-sticker {
+  border: 4px solid #fff;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18), 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.pbs-band {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 4px, transparent 4.5px);
+  background-size: 28px 28px;
 }
 
 /* Accessibility: dyslexia-friendly font */

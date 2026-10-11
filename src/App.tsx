@@ -101,14 +101,13 @@ function AppInner() {
 
 function Background() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#7ad7f5] via-island-blue/70 to-[#c4f2c4]">
-      <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-island-sun/70 blur-sm" />
-      <div className="absolute -left-10 top-1/3 h-40 w-40 rounded-full bg-white/50 blur-xl" />
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-island-green/40 to-transparent" />
-      <span className="absolute right-8 top-24 animate-float text-5xl opacity-90">☁️</span>
-      <span className="absolute left-10 top-16 animate-float text-4xl opacity-80 [animation-delay:1s]">☁️</span>
-      <span className="absolute bottom-6 left-8 animate-bob text-5xl opacity-90">🌴</span>
-      <span className="absolute bottom-8 right-10 animate-bob text-4xl opacity-80 [animation-delay:0.6s]">🌴</span>
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-island-orange/80 shadow-[0_0_0_10px_rgba(255,255,255,0.5)]" />
+      <span className="absolute right-8 top-28 animate-float text-5xl opacity-90">☁️</span>
+      <span className="absolute left-10 top-20 animate-float text-4xl opacity-80 [animation-delay:1s]">☁️</span>
+      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-island-green/50 to-transparent" />
+      <span className="absolute bottom-4 left-8 animate-bob text-5xl opacity-90">🌴</span>
+      <span className="absolute bottom-6 right-10 animate-bob text-4xl opacity-80 [animation-delay:0.6s]">🌴</span>
     </div>
   )
 }

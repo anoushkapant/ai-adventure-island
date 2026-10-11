@@ -116,8 +116,8 @@ export interface AccuracyBand {
 }
 
 export function accuracyBand(accuracy: number): AccuracyBand {
-  if (accuracy <= 30) return { emoji: '🌱', label: 'Learning', color: '#00C853' }
-  if (accuracy <= 60) return { emoji: '😊', label: 'Improving', color: '#FFD60A' }
-  if (accuracy <= 90) return { emoji: '🚀', label: 'Smart', color: '#4CC9F0' }
-  return { emoji: '🏆', label: 'AI Expert', color: '#9B5DE5' }
+  if (accuracy <= 30) return { emoji: '🌱', label: 'Learning', color: '#08ab4e' }
+  if (accuracy <= 60) return { emoji: '😊', label: 'Improving', color: '#f5b338' }
+  if (accuracy <= 90) return { emoji: '🚀', label: 'Smart', color: '#2d6cdf' }
+  return { emoji: '🏆', label: 'AI Expert', color: '#a220df' }
 }
