@@ -9,34 +9,34 @@ import type { View } from '../types'
 
 const PAGES: { emoji: string; title: string; text: string }[] = [
   {
-    emoji: '🌅',
-    title: 'The Island',
-    text: 'One sunny day, on a rainbow island, robot friends were born. But they were not very smart yet. They needed a teacher... and that teacher was you!',
+    emoji: '🏝️',
+    title: 'Ang Isla',
+    text: 'Isang maaraw na araw sa isang makulay na isla sa Pilipinas, ipinanganak ang mga robot amigos. Pero hindi pa sila masyadong matalino. Kailangan nila ng guro... at ang guro na iyon ay ikaw!',
   },
   {
     emoji: '🤖',
-    title: 'Robots Can Learn',
-    text: 'Robots do not know things all by themselves. They learn from examples — like when you teach them that apples and bananas are fruits!',
+    title: 'Natututo ang mga Robot',
+    text: 'Hindi basta-basta alam ng mga robot ang lahat. Natututo sila sa mga halimbawa — tulad ng pagtuturo mo na ang manga at saging ay prutas!',
   },
   {
-    emoji: '📚',
-    title: 'Train a Robot',
-    text: 'Every time you sort something, you make the robot smarter. Each example is a tiny piece of magic called training data.',
+    emoji: '🥭',
+    title: 'Sanayin ang Robot',
+    text: 'Tuwing mag-uuri ka ng isang bagay, tumatalino ang robot. Ang bawat halimbawa ay isang kislap ng mahika na tinatawag na training data.',
   },
   {
     emoji: '🧪',
-    title: 'Work It Out',
-    text: 'When the robot sees a brand new thing, it uses patterns. "Hmm, small, red and sweet... that must be a fruit!" Patterns help robots guess.',
+    title: 'Mag-Isip ka Nang Mabuti',
+    text: 'Kapag nakakita ang robot ng bagong nilalang, ginagamit nito ang mga pattern. "Hmm, maliit, pula at matamis... dapat prutas iyan!" Tumutulong ang patterns sa paaga ng robot.',
   },
   {
     emoji: '⚖️',
-    title: 'The Rabbit Mix-Up',
-    text: 'One robot only learned about cats and dogs. When it met a rabbit, it guessed wrong! Not enough examples made its answer unfair. That is called bias.',
+    title: 'Ang Hindi Patas na Hula',
+    text: 'Isang robot, puro pusa at aso lang ang natutunan. Nang makakita ito ng kuneho, mali ang hula nito! Dahil kulang ang halimbawa, naging hindi patas ang sagot. Ganoon ang tinatawag na bias.',
   },
   {
     emoji: '🌈',
-    title: 'You Are the Magic',
-    text: 'When you give robots lots of different, fair examples, they become super helpers. And remember — mistakes are OK. That is how scientists learn too!',
+    title: 'Ikaw ang Mahika',
+    text: 'Kapag nagbigay ka sa mga robot ng maraming iba-iba at patas na halimbawa, sila ay nagiging super katulong. At tandaan — okay lang ang magkamali. Ganoon din natututo ang mga siyentista!',
   },
 ]
 
@@ -78,14 +78,14 @@ export function Storybook({ onHome }: { onHome: (v: View) => void }) {
 
         <div className="flex w-full items-center justify-between gap-2">
           <Button variant="cream" size="md" icon="◀️" disabled={isFirst} onClick={() => go(page - 1)}>
-            Back
+            Bumalik
           </Button>
           <div className="flex gap-1">
             {PAGES.map((_, i) => (
               <button
                 key={i}
                 onClick={() => go(i)}
-                aria-label={`Page ${i + 1}`}
+                aria-label={`Pahina ${i + 1}`}
                 className={[
                   'h-4 w-4 rounded-full border-2 border-white',
                   i === page ? 'bg-island-purple' : 'bg-island-ink/20',
@@ -94,7 +94,7 @@ export function Storybook({ onHome }: { onHome: (v: View) => void }) {
             ))}
           </div>
           <Button variant="cream" size="md" icon="▶️" disabled={isLast} onClick={() => go(page + 1)}>
-            Next
+            Sunod
           </Button>
         </div>
 
@@ -105,13 +105,13 @@ export function Storybook({ onHome }: { onHome: (v: View) => void }) {
           fullWidth
           onClick={() => say(`${current.title}. ${current.text}`)}
         >
-          Read to me
+          Basahin mo sa akin
         </Button>
       </Card>
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('map')}>
-          Back
+          Bumalik
         </Button>
       </div>
     </div>

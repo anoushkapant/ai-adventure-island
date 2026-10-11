@@ -12,11 +12,11 @@ interface Dest {
 }
 
 const DESTINATIONS: Dest[] = [
-  { view: 'lab', emoji: '🤖', title: 'Robot Lab', subtitle: 'Meet your buddy', color: 'island-blue' },
-  { view: 'training', emoji: '🧠', title: 'Training Center', subtitle: 'Teach & build AI', color: 'island-green' },
-  { view: 'challenges', emoji: '🎯', title: 'AI Challenges', subtitle: 'Detective & Bias', color: 'island-coral' },
-  { view: 'rewards', emoji: '🏆', title: 'Rewards Castle', subtitle: 'Stars & stickers', color: 'island-sun' },
-  { view: 'story', emoji: '📖', title: 'AI Storybook', subtitle: 'Fun stories', color: 'island-purple' },
+  { view: 'lab', emoji: '🤖', title: 'Robot Lab', subtitle: 'Kilalanin ang kaibigan mo', color: 'island-blue' },
+  { view: 'training', emoji: '🧠', title: 'Training Center', subtitle: 'Magturo & mag-build ng AI', color: 'island-green' },
+  { view: 'challenges', emoji: '🎯', title: 'AI Challenges', subtitle: 'Detective at Bias', color: 'island-coral' },
+  { view: 'rewards', emoji: '🏆', title: 'Rewards Castle', subtitle: 'Mga bituin at stickers', color: 'island-sun' },
+  { view: 'story', emoji: '📖', title: 'AI Storybook', subtitle: 'Mga masasayang kwento', color: 'island-purple' },
 ]
 
 export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
@@ -34,7 +34,7 @@ export function IslandMap({ onNavigate }: { onNavigate: (v: View) => void }) {
             AI Adventure Island
           </h1>
           <p className="mt-1 font-display text-lg font-extrabold text-island-sun">
-            🧠 Learn AI by teaching your own friendly robot friends!
+            🧠 Matuto ng AI sa pamamagitan ng pagtuturo sa mga robot mong kaibigan!
           </p>
         </motion.div>
 

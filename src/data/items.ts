@@ -16,57 +16,61 @@ export interface CategoryDef {
 }
 
 /* ------------------------------------------------------------------ */
-/* Level 1 — Teach the Robot: Fruit vs Vegetable                       */
+/* Level 1 — Teach the Robot: Prutas (Fruit) vs Gulay (Veggie)         */
 /* ------------------------------------------------------------------ */
 
 export const level1Categories: CategoryDef[] = [
-  { id: 'fruit', label: 'Fruit', emoji: '🍓', color: 'island-coral' },
-  { id: 'vegetable', label: 'Veggie', emoji: '🥦', color: 'island-green' },
+  { id: 'fruit', label: 'Prutas', emoji: '🍓', color: 'island-coral' },
+  { id: 'vegetable', label: 'Gulay', emoji: '🥦', color: 'island-green' },
 ]
 
 export const level1Items: Item[] = [
-  { id: 'apple', emoji: '🍎', name: 'Apple', category: 'fruit', features: ['sweet', 'round', 'red', 'eaten_raw'] },
-  { id: 'banana', emoji: '🍌', name: 'Banana', category: 'fruit', features: ['sweet', 'long', 'yellow', 'eaten_raw'] },
-  { id: 'strawberry', emoji: '🍓', name: 'Strawberry', category: 'fruit', features: ['sweet', 'small', 'red', 'eaten_raw'] },
-  { id: 'grapes', emoji: '🍇', name: 'Grapes', category: 'fruit', features: ['sweet', 'small', 'purple', 'eaten_raw'] },
-  { id: 'orange', emoji: '🍊', name: 'Orange', category: 'fruit', features: ['sweet', 'round', 'orange', 'eaten_raw'] },
-  { id: 'watermelon', emoji: '🍉', name: 'Watermelon', category: 'fruit', features: ['sweet', 'big', 'green', 'eaten_raw'] },
-  { id: 'carrot', emoji: '🥕', name: 'Carrot', category: 'vegetable', features: ['crunchy', 'long', 'orange', 'cooked'] },
-  { id: 'broccoli', emoji: '🥦', name: 'Broccoli', category: 'vegetable', features: ['crunchy', 'round', 'green', 'cooked'] },
-  { id: 'corn', emoji: '🌽', name: 'Corn', category: 'vegetable', features: ['crunchy', 'long', 'yellow', 'cooked'] },
-  { id: 'tomato', emoji: '🍅', name: 'Tomato', category: 'vegetable', features: ['crunchy', 'round', 'red', 'cooked'] },
-  { id: 'pepper', emoji: '🫑', name: 'Pepper', category: 'vegetable', features: ['crunchy', 'round', 'green', 'cooked'] },
-  { id: 'eggplant', emoji: '🍆', name: 'Eggplant', category: 'vegetable', features: ['crunchy', 'long', 'purple', 'cooked'] },
+  { id: 'mango', emoji: '🥭', name: 'Manga', category: 'fruit', features: ['sweet', 'round', 'yellow', 'eaten_raw'] },
+  { id: 'banana', emoji: '🍌', name: 'Saging', category: 'fruit', features: ['sweet', 'long', 'yellow', 'eaten_raw'] },
+  { id: 'pineapple', emoji: '🍍', name: 'Pinya', category: 'fruit', features: ['sweet', 'small', 'yellow', 'eaten_raw'] },
+  { id: 'buko', emoji: '🥥', name: 'Buko', category: 'fruit', features: ['sweet', 'round', 'hard', 'drink'] },
+  { id: 'santol', emoji: '🍑', name: 'Santol', category: 'fruit', features: ['sweet', 'round', 'yellow', 'eaten_raw'] },
+  { id: 'guyabano', emoji: '🍈', name: 'Guyabano', category: 'fruit', features: ['sweet', 'big', 'green', 'eaten_raw'] },
+  { id: 'okra', emoji: '🥒', name: 'Okra', category: 'vegetable', features: ['crunchy', 'long', 'green', 'cooked'] },
+  { id: 'ampalaya', emoji: '🥬', name: 'Ampalaya', category: 'vegetable', features: ['crunchy', 'long', 'green', 'bitter'] },
+  { id: 'kalabasa', emoji: '🎃', name: 'Kalabasa', category: 'vegetable', features: ['crunchy', 'round', 'orange', 'cooked'] },
+  { id: 'kamote', emoji: '🍠', name: 'Kamote', category: 'vegetable', features: ['soft', 'long', 'orange', 'cooked'] },
+  { id: 'talong', emoji: '🍆', name: 'Talong', category: 'vegetable', features: ['crunchy', 'long', 'purple', 'cooked'] },
+  { id: 'mais', emoji: '🌽', name: 'Mais', category: 'vegetable', features: ['crunchy', 'long', 'yellow', 'cooked'] },
 ]
 
 /* ------------------------------------------------------------------ */
-/* Level 2 — Robot Detective: Animal / Vehicle / Food / Toy            */
+/* Level 2 — Robot Detective: Hayop / Sasakyan / Pagkain / Laruan      */
 /* ------------------------------------------------------------------ */
 
 export const level2Categories: CategoryDef[] = [
-  { id: 'animal', label: 'Animal', emoji: '🐾', color: 'island-green' },
-  { id: 'vehicle', label: 'Vehicle', emoji: '🚗', color: 'island-blue' },
-  { id: 'food', label: 'Food', emoji: '🍔', color: 'island-sun' },
-  { id: 'toy', label: 'Toy', emoji: '🧸', color: 'island-purple' },
+  { id: 'animal', label: 'Hayop', emoji: '🐾', color: 'island-green' },
+  { id: 'vehicle', label: 'Sasakyan', emoji: '🚗', color: 'island-blue' },
+  { id: 'food', label: 'Pagkain', emoji: '🍔', color: 'island-sun' },
+  { id: 'toy', label: 'Laruan', emoji: '🧸', color: 'island-purple' },
 ]
 
 export const level2Items: Item[] = [
-  { id: 'cat', emoji: '🐱', name: 'Cat', category: 'animal', features: ['alive', 'has_legs', 'soft', 'moves'] },
-  { id: 'dog', emoji: '🐶', name: 'Dog', category: 'animal', features: ['alive', 'has_legs', 'soft', 'moves'] },
-  { id: 'bird', emoji: '🐦', name: 'Bird', category: 'animal', features: ['alive', 'has_wings', 'soft', 'moves'] },
-  { id: 'fish', emoji: '🐟', name: 'Fish', category: 'animal', features: ['alive', 'has_fins', 'soft', 'moves'] },
-  { id: 'car', emoji: '🚗', name: 'Car', category: 'vehicle', features: ['has_wheels', 'metal', 'moves', 'big'] },
-  { id: 'bus', emoji: '🚌', name: 'Bus', category: 'vehicle', features: ['has_wheels', 'metal', 'moves', 'big'] },
-  { id: 'bike', emoji: '🚲', name: 'Bike', category: 'vehicle', features: ['has_wheels', 'metal', 'moves', 'small'] },
-  { id: 'plane', emoji: '✈️', name: 'Plane', category: 'vehicle', features: ['has_wings', 'metal', 'moves', 'big'] },
-  { id: 'pizza', emoji: '🍕', name: 'Pizza', category: 'food', features: ['edible', 'round', 'cooked', 'tasty'] },
-  { id: 'burger', emoji: '🍔', name: 'Burger', category: 'food', features: ['edible', 'round', 'cooked', 'tasty'] },
-  { id: 'icecream', emoji: '🍦', name: 'Ice Cream', category: 'food', features: ['edible', 'soft', 'sweet', 'tasty'] },
-  { id: 'cake', emoji: '🎂', name: 'Cake', category: 'food', features: ['edible', 'soft', 'sweet', 'tasty'] },
-  { id: 'teddy', emoji: '🧸', name: 'Teddy', category: 'toy', features: ['not_alive', 'soft', 'play', 'small'] },
-  { id: 'ball', emoji: '⚽', name: 'Ball', category: 'toy', features: ['not_alive', 'round', 'play', 'small'] },
-  { id: 'blocks', emoji: '🧱', name: 'Blocks', category: 'toy', features: ['not_alive', 'hard', 'play', 'small'] },
-  { id: 'robot', emoji: '🤖', name: 'Robot Toy', category: 'toy', features: ['not_alive', 'metal', 'play', 'small'] },
+  { id: 'kalabaw', emoji: '🐃', name: 'Kalabaw', category: 'animal', features: ['alive', 'has_legs', 'big', 'soft'] },
+  { id: 'aso', emoji: '🐶', name: 'Aso', category: 'animal', features: ['alive', 'has_legs', 'soft', 'moves'] },
+  { id: 'pusa', emoji: '🐱', name: 'Pusa', category: 'animal', features: ['alive', 'has_legs', 'soft', 'moves'] },
+  { id: 'agila', emoji: '🦅', name: 'Agila', category: 'animal', features: ['alive', 'has_wings', 'soft', 'moves'] },
+  { id: 'tilapia', emoji: '🐟', name: 'Tilapia', category: 'animal', features: ['alive', 'has_fins', 'soft', 'moves'] },
+  { id: 'jeepney', emoji: '🚌', name: 'Jeepney', category: 'vehicle', features: ['has_wheels', 'metal', 'moves', 'big'] },
+  { id: 'tricycle', emoji: '🛵', name: 'Tricycle', category: 'vehicle', features: ['has_wheels', 'metal', 'moves', 'small'] },
+  { id: 'kotse', emoji: '🚗', name: 'Kotse', category: 'vehicle', features: ['has_wheels', 'metal', 'moves', 'big'] },
+  { id: 'bangka', emoji: '🚤', name: 'Bangka', category: 'vehicle', features: ['moves', 'water', 'big', 'wood'] },
+  { id: 'eroplano', emoji: '✈️', name: 'Eroplano', category: 'vehicle', features: ['has_wings', 'metal', 'moves', 'big'] },
+  { id: 'halohalo', emoji: '🍧', name: 'Halo-halo', category: 'food', features: ['edible', 'sweet', 'cold', 'round'] },
+  { id: 'adobo', emoji: '🍛', name: 'Adobo', category: 'food', features: ['edible', 'meaty', 'savory', 'cooked'] },
+  { id: 'lumpia', emoji: '🥟', name: 'Lumpia', category: 'food', features: ['edible', 'crunchy', 'long', 'savory'] },
+  { id: 'champorado', emoji: '🥣', name: 'Champorado', category: 'food', features: ['edible', 'sweet', 'hot', 'round'] },
+  { id: 'sinigang', emoji: '🍲', name: 'Sinigang', category: 'food', features: ['edible', 'meaty', 'sour', 'cooked'] },
+  { id: 'lechon', emoji: '🍗', name: 'Lechon', category: 'food', features: ['edible', 'meaty', 'crunchy', 'cooked'] },
+  { id: 'yoyo', emoji: '🪀', name: 'Yo-Yo', category: 'toy', features: ['not_alive', 'round', 'play', 'small'] },
+  { id: 'sipa', emoji: '⚽', name: 'Sipa', category: 'toy', features: ['not_alive', 'round', 'play', 'small'] },
+  { id: 'legobricks', emoji: '🧱', name: 'Lego', category: 'toy', features: ['not_alive', 'hard', 'play', 'small'] },
+  { id: 'robotlaruan', emoji: '🤖', name: 'Robot Talaga', category: 'toy', features: ['not_alive', 'metal', 'play', 'small'] },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -74,41 +78,42 @@ export const level2Items: Item[] = [
 /* ------------------------------------------------------------------ */
 
 export const level3TrainedCategories: CategoryDef[] = [
-  { id: 'cat', label: 'Cat', emoji: '🐱', color: 'island-coral' },
-  { id: 'dog', label: 'Dog', emoji: '🐶', color: 'island-blue' },
+  { id: 'cat', label: 'Pusa', emoji: '🐱', color: 'island-coral' },
+  { id: 'dog', label: 'Aso', emoji: '🐶', color: 'island-blue' },
 ]
 
 export const level3NewCategories: CategoryDef[] = [
-  { id: 'rabbit', label: 'Rabbit', emoji: '🐰', color: 'island-purple' },
+  { id: 'rabbit', label: 'Kuneho', emoji: '🐰', color: 'island-purple' },
 ]
 
 export const level3Items: Item[] = [
-  { id: 'l3cat', emoji: '🐱', name: 'Cat', category: 'cat', features: ['furry', 'whiskers', 'pointy_ears', 'tail'] },
-  { id: 'l3dog', emoji: '🐶', name: 'Dog', category: 'dog', features: ['furry', 'floppy_ears', 'snout', 'tail'] },
-  { id: 'l3rabbit', emoji: '🐰', name: 'Rabbit', category: 'rabbit', features: ['furry', 'long_ears', 'hopping', 'round_tail'] },
+  { id: 'l3cat', emoji: '🐱', name: 'Pusa', category: 'cat', features: ['furry', 'whiskers', 'pointy_ears', 'tail'] },
+  { id: 'l3dog', emoji: '🐶', name: 'Aso', category: 'dog', features: ['furry', 'floppy_ears', 'snout', 'tail'] },
+  { id: 'l3rabbit', emoji: '🐰', name: 'Kuneho', category: 'rabbit', features: ['furry', 'long_ears', 'hopping', 'round_tail'] },
   { id: 'l3hamster', emoji: '🐹', name: 'Hamster', category: 'rabbit', features: ['furry', 'tiny_ears', 'storing_cheeks', 'round_tail'] },
 ]
 
 /* ------------------------------------------------------------------ */
-/* Dragon — Fire / Water / Plant creatures                             */
+/* Train the Dragon — Bakunawa: Apoy (Fire) / Tubig (Water) /          */
+/*                    Halaman (Plant) creatures                        */
 /* ------------------------------------------------------------------ */
 
 export const dragonCategories: CategoryDef[] = [
-  { id: 'fire', label: 'Fire', emoji: '🔥', color: 'island-coral' },
-  { id: 'water', label: 'Water', emoji: '🌊', color: 'island-blue' },
-  { id: 'plant', label: 'Plant', emoji: '🌱', color: 'island-green' },
+  { id: 'fire', label: 'Apoy', emoji: '🔥', color: 'island-coral' },
+  { id: 'water', label: 'Tubig', emoji: '🌊', color: 'island-blue' },
+  { id: 'plant', label: 'Halaman', emoji: '🌱', color: 'island-green' },
 ]
 
 export const dragonItems: Item[] = [
-  { id: 'phoenix', emoji: '🔥', name: 'Ember', category: 'fire', features: ['hot', 'glows', 'red', 'flies'] },
-  { id: 'lava', emoji: '🌋', name: 'Lava Blob', category: 'fire', features: ['hot', 'glows', 'red', 'ground'] },
-  { id: 'torch', emoji: '🕯️', name: 'Torch Spirit', category: 'fire', features: ['hot', 'glows', 'orange', 'ground'] },
-  { id: 'wave', emoji: '🌊', name: 'Wave', category: 'water', features: ['wet', 'flows', 'blue', 'ground'] },
-  { id: 'drop', emoji: '💧', name: 'Dew Drop', category: 'water', features: ['wet', 'flows', 'blue', 'flies'] },
-  { id: 'splash', emoji: '🐳', name: 'Splasher', category: 'water', features: ['wet', 'swims', 'blue', 'ground'] },
-  { id: 'sprout', emoji: '🌱', name: 'Sprout', category: 'plant', features: ['wet', 'grows', 'green', 'ground'] },
-  { id: 'leaf', emoji: '🍃', name: 'Leafy', category: 'plant', features: ['dry', 'grows', 'green', 'flies'] },
-  { id: 'cactus', emoji: '🌵', name: 'Spikey', category: 'plant', features: ['dry', 'grows', 'green', 'ground'] },
+  { id: 'alab', emoji: '🔥', name: 'Alab', category: 'fire', features: ['hot', 'glows', 'red', 'flies'] },
+  { id: 'sulo', emoji: '🕯️', name: 'Sulo', category: 'fire', features: ['hot', 'glows', 'orange', 'ground'] },
+  { id: 'kislap', emoji: '✨', name: 'Kislap', category: 'fire', features: ['hot', 'glows', 'yellow', 'flies'] },
+  { id: 'alon', emoji: '🌊', name: 'Alon', category: 'water', features: ['wet', 'flows', 'blue', 'ground'] },
+  { id: 'patak', emoji: '💧', name: 'Patak', category: 'water', features: ['wet', 'flows', 'blue', 'flies'] },
+  { id: 'sirena', emoji: '🐠', name: 'Sirena', category: 'water', features: ['wet', 'swims', 'blue', 'ground'] },
+  { id: 'sibol', emoji: '🌱', name: 'Sibol', category: 'plant', features: ['wet', 'grows', 'green', 'ground'] },
+  { id: 'dahon', emoji: '🍃', name: 'Dahon', category: 'plant', features: ['dry', 'grows', 'green', 'flies'] },
+  { id: 'kawayan', emoji: '🎋', name: 'Kawayan', category: 'plant', features: ['dry', 'grows', 'green', 'ground'] },
 ]
 
 /* ------------------------------------------------------------------ */

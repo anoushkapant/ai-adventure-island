@@ -88,11 +88,11 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
         <div className="flex items-center gap-4">
           <RobotBuddy mood={mood} size={90} className="shrink-0" />
           <p className="font-display text-lg font-bold text-island-ink">
-            {phase === 'discover' && 'I only ever learned about cats and dogs...'}
-            {phase === 'explain' && "I've never seen an animal like this before!"}
-            {phase === 'fix' && 'Show me more animals so I can learn!'}
-            {phase === 'fixed' && "Now I know what a rabbit is! I'm fairer now."}
-            {phase === 'result' && 'Balanced data makes fair AI!'}
+            {phase === 'discover' && 'Puro pusa at aso lang ang natutunan ko...'}
+            {phase === 'explain' && "Hindi pa ako nakakita ng ganitong hayop kahit kailan! Kuneho po ang mga ito!"}
+            {phase === 'fix' && 'Ipakita mo sa akin ang iba pang mga hayop para matuto ako!'}
+            {phase === 'fixed' && "Ngayon alam ko na ang kuneho! Mas patas na ako."}
+            {phase === 'result' && 'Ang balanseng data ay gumagawa ng patas na AI!'}
           </p>
         </div>
       </Card>
@@ -123,7 +123,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'discover' && (
         <Card className="flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            Look! Here comes a new animal 🐰
+            Tingnan! May bagong hayop na dumarating 🐰
           </p>
           <ItemTile item={rabbit} size="lg" />
           <motion.div
@@ -132,14 +132,14 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
             className="rounded-3xl bg-island-coral/20 px-4 py-2 text-center"
           >
             <span className="font-display text-lg font-bold text-island-ink">
-              🤖 "This is a {labelOf(allCategories, biasGuess.label)}!"
+              🤖 "Ito ay {labelOf(allCategories, biasGuess.label)}!"
             </span>
           </motion.div>
           <p className="text-center font-display font-bold text-island-coral">
-            Uh oh! That is wrong. 🐰 is a rabbit!
+            Ay naku! Mali iyan. 🐰 ay isang kuneho!
           </p>
           <Button variant="purple" size="lg" icon="🤔" onClick={() => setPhase('explain')}>
-            Why did that happen?
+            Bakit nangyari iyan?
           </Button>
         </Card>
       )}
@@ -148,17 +148,17 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
         <Card className="flex flex-col items-center gap-4 p-6 text-center">
           <span className="text-6xl">⭐</span>
           <h3 className="font-display text-2xl font-extrabold text-island-ink">
-            The AI didn't see enough examples!
+            Hindi sapat ang examples na nakita ng AI!
           </h3>
           <p className="font-display text-lg font-bold text-island-ink/80">
-            The AI only learned about <b>cats</b> and <b>dogs</b>. It had never seen a rabbit, so it
-            made an unfair guess. This is called <span className="text-island-purple">bias</span>.
+            Natutunan lang ng AI ang tungkol sa <b>mga pusa</b> at <b>mga aso</b>. Kailanman, hindi pa ito nakakita ng kuneho, kaya ito
+            nakagawa ng hindi patas na hula. Tinatawag itong <span className="text-island-purple">bias</span>.
           </p>
           <p className="font-display font-bold text-island-green">
             Balanced data = fair AI. Let's fix it together!
           </p>
           <Button variant="green" size="lg" icon="🧠" onClick={() => setPhase('fix')}>
-            Teach more animals!
+            Turuan pa ng mga hayop!
           </Button>
         </Card>
       )}
@@ -166,7 +166,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'fix' && (
         <Card className="flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            Teach the AI about this animal:
+            Turuan ang AI tungkol sa hayp na ito:
           </p>
           <AnimatePresence mode="popLayout">
             <motion.div
@@ -196,14 +196,14 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
             className="rounded-3xl bg-island-green/20 px-4 py-2"
           >
             <span className="font-display text-lg font-bold text-island-ink">
-              🤖 "This is a Rabbit!" {rabbitNowCorrect ? '✅' : ''}
+              🤖 "Ito ay isang Kuneho!" {rabbitNowCorrect ? '✅' : ''}
             </span>
           </motion.div>
           <p className="font-display text-lg font-bold text-island-green">
-            The AI is fair again now that it has seen rabbits!
+            Patas na ulit ang AI ngayong nakakita na ito ng mga kuneho!
           </p>
           <Button variant="blue" size="lg" icon="🏆" onClick={finish}>
-            Finish
+            Tapos na!
           </Button>
         </Card>
       )}
@@ -211,18 +211,18 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'result' && (
         <Card className="flex flex-col items-center gap-3 p-6 text-center">
           <h3 className="font-display text-3xl font-extrabold text-island-ink">
-            You are a Bias Buster!
+            Ikaw ay isang Bias Buster!
           </h3>
           <div className="text-5xl">⭐⭐⭐</div>
           <p className="font-display font-bold text-island-ink/80">
-            Remember: AI is only as fair as the data we give it.
+            Tandaan: Patas lang ang AI sa data na ibinibigay natin dito.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button variant="green" icon="🔁" onClick={() => onHome('challenges')}>
-              Play again
+              Ulitin
             </Button>
             <Button variant="blue" icon="🏝️" onClick={() => onHome('map')}>
-              Island Map
+              Isla 🏝️
             </Button>
           </div>
         </Card>
@@ -230,7 +230,7 @@ export function Level3Bias({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('challenges')}>
-          Back
+          Bumalik
         </Button>
       </div>
     </div>

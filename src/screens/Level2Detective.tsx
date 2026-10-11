@@ -34,7 +34,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
   const [round, setRound] = useState(0)
   const [phase, setPhase] = useState<'guess' | 'reveal' | 'result'>('guess')
   const [mood, setMood] = useState<Mood>('idle')
-  const [message, setMessage] = useState('Watch closely! The AI will guess.')
+  const [message, setMessage] = useState('Panoorin mo! Huwag kang kukurap.')
   const [feedback, setFeedback] = useState<{ ok: boolean; text: string } | null>(null)
   const [score, setScore] = useState(0)
   const [accuracy, setAccuracy] = useState(() => brain.current.stableAccuracyOn(level2Items))
@@ -66,9 +66,9 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
       ok: agreed,
       text: agreed
         ? aiRight
-          ? '✅ You are right — the AI guessed it!'
-          : '❌ Good catch! The AI was wrong. You just gave it a new example to learn from!'
-        : `🔄 The AI guessed ${labelOf(pred.label)}, but it is really a ${labelOf(item.category)}. Now the AI learns from it!`,
+          ? '✅ Tama! Nahulaan ng AI ito!'
+          : '❌ Huli ka, hula! Mali ang AI. Nagbigay ka na ng bagong example para matuto!'
+        : `🔄 Nahulaan ng AI na ${labelOf(pred.label)}, pero ${labelOf(item.category)} talaga. Ngayon natututo na ang AI!`,
     })
     setPhase('reveal')
   }
@@ -82,7 +82,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
       setRound((r) => r + 1)
       setFeedback(null)
       setMood('idle')
-      setMessage('Next one! Watch closely.')
+      setMessage('Sunod! Sige, bantayan mo nang mabuti.')
       setPhase('guess')
     }
   }
@@ -96,8 +96,8 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
     addStars(score)
     grantSticker('detective')
     if (acc >= 91) grantSticker('ai_expert')
-    celebrate('🕵️', 'Robot Detective!', `The AI is now ${acc}% smart`)
-    say(`You helped the AI learn! It is now ${acc} percent smart.`)
+    celebrate('🕵️', 'Robot Detective!', `Matalino na ang AI nito: ${acc}%`)
+    say(`Tinulungan mong matuto ang AI! ${acc} percent na itong matalino.`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase])
 
@@ -127,7 +127,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
       {phase !== 'result' && (
         <Card className="mt-2 flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            The AI is looking at this...
+            Tinitingnan ito ng AI...
           </p>
           <ItemTile item={item} size="lg" />
 
@@ -139,11 +139,11 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
               className="rounded-3xl bg-island-purple/15 px-4 py-2 text-center"
             >
               <span className="font-display text-lg font-bold text-island-ink">
-                🤖 "I think this is a{' '}
+                🤖 "Sa tingin ko, ito ay{' '}
                 <span className="text-island-purple">{labelOf(pred.label)}</span>!"
               </span>
               <div className="mt-1 text-sm font-bold text-island-ink/60">
-                Confidence: {Math.round(pred.confidence * 100)}%
+                Kumpiyansa: {Math.round(pred.confidence * 100)}%
               </div>
             </motion.div>
           </AnimatePresence>
@@ -176,7 +176,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
                 {feedback?.text}
               </motion.div>
               <Button variant="blue" size="lg" icon="➡️" onClick={next}>
-                {round + 1 >= TOTAL_ROUNDS ? 'See results' : 'Next'}
+                {round + 1 >= TOTAL_ROUNDS ? 'Tingnan ang resulta' : 'Sunod'}
               </Button>
             </div>
           )}
@@ -192,15 +192,15 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
             </h3>
             <div className="text-5xl">{'⭐'.repeat(starsFor(accuracy))}</div>
             <p className="font-display font-bold text-island-ink/80">
-              🔍 You taught the AI by checking its answers. That is called<br />
+              🔍 Itinuro mo ang AI sa pamamagitan ng pagsuri sa mga sagot niya. Tinatawag itong<br />
               <span className="text-island-purple">supervised learning</span>!
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Button variant="green" icon="🔁" onClick={() => onHome('challenges')}>
-                Choose again
+                Ulitin
               </Button>
               <Button variant="blue" icon="🏝️" onClick={() => onHome('map')}>
-                Island Map
+                Isla 🏝️
               </Button>
             </div>
           </Card>
@@ -209,7 +209,7 @@ export function Level2Detective({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('challenges')}>
-          Back
+          Bumalik
         </Button>
       </div>
     </div>

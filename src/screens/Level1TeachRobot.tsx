@@ -25,7 +25,7 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
   const [accuracy, setAccuracy] = useState(0)
   const [testIdx, setTestIdx] = useState(0)
   const [mood, setMood] = useState<Mood>('idle')
-  const [message, setMessage] = useState("Hi! I don't know anything yet. Teach me!")
+  const [message, setMessage] = useState('Hi! Ako si Botoy! Wala pa akong alam, turuan mo ako!')
   const awarded = useRef(false)
 
   const testPredictions = useMemo(
@@ -51,7 +51,7 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
     const next = trainIdx + 1
     if (next >= order.length) {
       setMood('thinking')
-      setMessage('Ooh! I have lots of examples. Let me try on my own!')
+      setMessage('Wow! Marami na akong examples. Subukan natin mag-isa ako!')
       setPhase('test')
       setTestIdx(0)
     } else {
@@ -60,12 +60,12 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
       setMood(acc >= 91 ? 'excited' : young ? 'thinking' : 'happy')
       setMessage(
         acc === 0
-          ? "Keep going, I'm still clueless!"
+          ? "Sige lang, hindi ko pa alam ang lahat!"
           : acc < 60
-            ? 'I am starting to notice patterns!'
+            ? 'May napapansin na akong pattern, tuloy ka lang!'
             : acc < 91
-              ? 'I think I get it now!'
-              : "I'm getting really good at this!",
+              ? 'Parang naiintindihan ko na!'
+              : "Ang galing ko na! Mahusay akong matuto!",
       )
     }
   }
@@ -79,14 +79,14 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
     }
     const { pred, item } = testPredictions[testIdx]
     setMood('thinking')
-    setMessage(`Hmm... is "${item.name}" a ${labelOf(pred.label)}?`)
+    setMessage(`Hmm... "${item.name}", ${labelOf(pred.label)} ba 'yan?`)
     const t = setTimeout(() => {
       const right = pred.label === item.category
       setMood(right ? 'happy' : 'confused')
       setMessage(
         right
-          ? `Yes! ${item.name} is a ${labelOf(item.category)}! ✅`
-          : `Oops! ${item.name} is really a ${labelOf(item.category)}. ❌`,
+          ? `Salamat! Tama! ${item.name} ay ${labelOf(item.category)}! ✅`
+          : `Ay, mali! Ang ${item.name} talaga ay ${labelOf(item.category)}. ❌`,
       )
       playSound(right ? 'correct' : 'wrong', state.settings.sound)
       setTestIdx((i) => i + 1)
@@ -131,7 +131,7 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
           </div>
           <Card className="flex flex-col items-center gap-4 p-6">
             <p className="font-display text-xl font-bold text-island-ink">
-              Which group does this belong to?
+              Alin sa mga ito ang tama?
             </p>
             <AnimatePresence mode="popLayout">
               <motion.div
@@ -209,10 +209,10 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
             <div className="text-5xl">{'⭐'.repeat(starsFor(finalAccuracy))}</div>
             <p className="font-display font-bold text-island-ink/80">
               {finalAccuracy >= 91
-                ? '🏆 Wow! More examples make a smarter AI!'
+                ? '🏆 Sobrang galing! Mas maraming examples, mas matalino ang AI!'
                 : finalAccuracy >= 70
-                  ? '🚀 Great! Try again with different examples to get even smarter!'
-                  : '🌱 Nice start! The AI needs more examples to learn better.'}
+                  ? '🚀 Ang galing! Ulitin mo para lalo pang tumalino ang AI!'
+                  : '🌱 Magandang simula! Kailangan ng AI ng marami pang examples para matuto.'}
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Button
@@ -229,10 +229,10 @@ export function Level1TeachRobot({ onHome }: { onHome: (v: View) => void }) {
                   setMessage("Let's try again! Teach me with new examples.")
                 }}
               >
-                Play again
+                Ulitin
               </Button>
               <Button variant="blue" icon="🏝️" onClick={() => onHome('map')}>
-                Island Map
+                Isla 🏝️
               </Button>
             </div>
           </Card>

@@ -77,7 +77,7 @@ function AppInner() {
 
         <footer className="relative py-6 text-center">
           <p className="font-display text-sm font-bold text-island-ink/60">
-            🧠 Learn AI by teaching your own friendly robot friends! · No data collected, safe for kids 💜
+            🧠 Matuto ng AI sa pamamagitan ng pagtuturo sa mga robot mong kaibigan! · Walang kinukuhang data, ligtas para sa mga bata 💜
           </p>
         </footer>
       </div>

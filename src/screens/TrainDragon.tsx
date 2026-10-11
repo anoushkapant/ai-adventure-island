@@ -23,19 +23,19 @@ interface Stage {
 }
 
 function stageFor(acc: number): Stage {
-  if (acc <= 20) return { emoji: '🥚', name: 'Tiny Egg', scale: 0.7 }
-  if (acc <= 45) return { emoji: '🐣', name: 'Baby Dragon', scale: 0.85 }
-  if (acc <= 70) return { emoji: '🐲', name: 'Growing Dragon', scale: 1 }
-  if (acc <= 90) return { emoji: '🔥', name: 'Strong Dragon', scale: 1.15 }
-  return { emoji: '🐉', name: 'Legendary Dragon', scale: 1.3 }
+  if (acc <= 20) return { emoji: '🥚', name: 'Maliit na Itlog', scale: 0.7 }
+  if (acc <= 45) return { emoji: '🐣', name: 'Baby Bakunawa', scale: 0.85 }
+  if (acc <= 70) return { emoji: '🐲', name: 'Lumalaking Bakunawa', scale: 1 }
+  if (acc <= 90) return { emoji: '🔥', name: 'Malakas na Bakunawa', scale: 1.15 }
+  return { emoji: '🐉', name: 'Maalamat na Bakunawa', scale: 1.3 }
 }
 
 const DRAGON_TALK: Record<string, string> = {
-  ready: 'Rawr! 🐲 Feed me example cards so I grow strong!',
-  first: 'Nom, nom! Spark? ember? Friend? ...',
-  learning: 'My brain is growing! Keep feeding me!',
-  good: 'ROAR! I understand fire, water and plants now!',
-  legendary: 'WHOA! I am a legendary dragon AI!',
+  ready: 'Rawr! 🐲 Pakanin mo ako ng example cards para lalo akong lumakas!',
+  first: 'Mmmm! Alab? Patak? Sibol? Kawayan? ...',
+  learning: 'Lumalaki na ang utak ko! Sige, pakainin mo pa ako!',
+  good: 'ROAR! Naiintindihan ko na ang apoy, tubig at halaman!',
+  legendary: 'WOW! Ako ay isang maalamat na dragon na AI! Salamat!',
 }
 
 export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
@@ -68,7 +68,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
     const next = idx + 1
     if (next >= order.length || acc >= 100) {
       setTimeout(() => setPhase('done'), 700)
-      if (acc >= 91) celebrate('🐉', 'Legendary Dragon!', 'Your dragon became a smart AI legend')
+      if (acc >= 91) celebrate('🐉', 'Maalamat na Bakunawa!', 'Naging matalinong AI legend ang iyong dragon')
     } else {
       setIdx(next)
     }
@@ -79,7 +79,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
     completeLevel('dragon', accuracy, stars)
     grantSticker('dragon_friend')
     if (accuracy >= 91) grantSticker('ai_expert')
-    say(`Your dragon learned and grew. You taught it the magic of AI!`)
+    say(`Natuto at lumakas ang iyong Bakunawa. Itinuro mo rito ang mahika ng AI!`)
     onHome('training')
   }
 
@@ -123,10 +123,10 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'intro' && (
         <Card className="flex flex-col items-center gap-4 p-6 text-center">
           <p className="font-display text-xl font-bold text-island-ink">
-            A baby dragon needs YOUR help to get smart!
+            Isang baby Bakunawa ang nangangailangan ng TULONG mo para maging matalino!
           </p>
           <p className="font-display font-bold text-island-ink/80">
-            Feed it example cards and choose the right group:
+            Pakanin mo ito ng example cards at piliin ang tamang grupo:
           </p>
           <div className="flex gap-3">
             {dragonCategories.map((c) => (
@@ -140,7 +140,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
             ))}
           </div>
           <Button variant="coral" size="xl" icon="🐲" onClick={() => setPhase('feed')}>
-            Feed the Dragon!
+            Pakainin ang Bakunawa!
           </Button>
         </Card>
       )}
@@ -148,7 +148,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
       {phase === 'feed' && (
         <Card className="flex flex-col items-center gap-4 p-6">
           <p className="font-display text-xl font-bold text-island-ink">
-            What kind of creature is this?
+            Anong klaseng nilalang ito?
           </p>
           <AnimatePresence mode="popLayout">
             <motion.div
@@ -166,8 +166,8 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
             ))}
           </div>
           <p className="text-sm font-bold text-island-ink/60">
-            Example {Math.min(idx + 1, order.length)} of {order.length} · The dragon grows with every
-            meal!
+            Example {Math.min(idx + 1, order.length)} of {order.length} · Lumalaki ang Bakunawa sa bawat
+            kain!
           </p>
         </Card>
       )}
@@ -187,11 +187,11 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
               {stage.name}!
             </h3>
             <p className="font-display font-bold text-island-ink/80">
-              Your dragon reached {accuracy}% smartness with {order.length} example cards!
+              Ang iyong Bakunawa ay umabot ng {accuracy}% katalinuhan gamit ang {order.length} example cards!
             </p>
             <div className="text-5xl">{'⭐'.repeat(starsFor(accuracy))}</div>
             <Button variant="green" size="lg" icon="🏡" onClick={finish}>
-              Back to Island
+              Bumalik sa Isla
             </Button>
           </Card>
         </>
@@ -199,7 +199,7 @@ export function TrainDragon({ onHome }: { onHome: (v: View) => void }) {
 
       <div className="mt-4 text-center">
         <Button variant="cream" size="md" icon="↩️" onClick={() => onHome('training')}>
-          Back
+          Bumalik
         </Button>
       </div>
     </div>

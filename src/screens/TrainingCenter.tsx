@@ -10,8 +10,8 @@ export function TrainingCenter({ onNavigate }: { onNavigate: (v: View) => void }
         <ActivityCard
           index={0}
           emoji="🍎"
-          title="Teach the Robot"
-          description="Sort fruits and veggies. Watch the AI learn!"
+          title="Turuan ang Robot"
+          description="Pag-uri-uriin ang mga prutas at gulay. Panoorin matuto ang AI!"
           color="island-green"
           onClick={() => onNavigate('level1')}
           stars={state.levels['level1']?.stars}
@@ -30,8 +30,8 @@ export function TrainingCenter({ onNavigate }: { onNavigate: (v: View) => void }
         <ActivityCard
           index={2}
           emoji="🐲"
-          title="Train the Dragon"
-          description="A baby dragon needs your help to grow!"
+          title="Sanayin ang Bakunawa"
+          description="Isang baby Bakunawa ang nangangailangan ng tulong mo para lumaki!"
           color="island-coral"
           onClick={() => onNavigate('dragon')}
           stars={state.levels['dragon']?.stars}
